@@ -2,7 +2,7 @@ import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { useState } from "react";
 import { saveBlogToFirebase } from "../redux/features/blogService";
-import { FirebaseUploadAdapterPlugin } from "../firebase/uploadAdopter";
+// import { FirebaseUploadAdapterPlugin } from "../firebase/uploadAdopter";
 
 import {
   Box,
@@ -38,7 +38,7 @@ const Heropage: React.FC<BlogEditorProps> = ({ onSave }) => {
       setSaving(true);
       setError(null);
       const id = await saveBlogToFirebase({ title, content });
-      // console.log("Blog saved with ID:", id);
+      console.log("Blog saved with ID:", id);
       onSave?.({ title, content });
       setTitle("");
       setContent("");

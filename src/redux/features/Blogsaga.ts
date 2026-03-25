@@ -48,7 +48,7 @@ function* updateBlogSaga(
     yield put(updateBlogFailure(error.message || 'Failed to update blog'));
   }
 }
-const COLLECTION = 'blogs';
+// const COLLECTION = 'blogs';
 
 
 
