@@ -22,7 +22,7 @@ import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
-import { auth, db } from "../firebase/firebase-config"; // ✅ shared config
+import { auth, db } from "../firebase/firebase-config";
 import { doc, getDoc } from "firebase/firestore";
 
 interface BlogPost {
@@ -32,7 +32,6 @@ interface BlogPost {
   createdAt: number;
 }
 
-// ✅ Always returns a user-specific key — bookmarks never leak between accounts
 function getBookmarkKey(): string {
   const user = auth.currentUser;
   return user ? `bookmarks_${user.uid}` : "bookmarks_guest";
@@ -74,10 +73,8 @@ export default function BookmarkPage() {
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // ✅ bookmarkIds initialized as empty — loaded after auth resolves
   const [bookmarkIds, setBookmarkIds] = useState<string[]>([]);
 
-  // ✅ Step 1: Wait for auth, then load user-scoped bookmarks from localStorage
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
@@ -92,7 +89,6 @@ export default function BookmarkPage() {
     return () => unsubscribe();
   }, []);
 
-  // ✅ Step 2: Fetch blog posts from Firestore once bookmarkIds are loaded
   useEffect(() => {
     const fetchBookmarks = async () => {
       if (bookmarkIds.length === 0) {
@@ -128,7 +124,6 @@ export default function BookmarkPage() {
     setPosts((prev) => prev.filter((p) => p.id !== id));
   };
 
-  // ✅ Clear all bookmarks using user-scoped key
   const clearAll = () => {
     const key = getBookmarkKey();
     localStorage.setItem(key, JSON.stringify([]));
@@ -182,7 +177,7 @@ export default function BookmarkPage() {
                 fontSize: "0.72rem",
                 letterSpacing: "0.1em",
                 textTransform: "uppercase",
-                border: `1px solid ${theme.palette.divider}`, // ✅ real theme value
+                border: `1px solid ${theme.palette.divider}`,
                 borderRadius: "4px",
                 px: 2,
                 "&:hover": {
@@ -197,7 +192,6 @@ export default function BookmarkPage() {
           )}
         </Stack>
         <Divider sx={{ borderColor: theme.palette.divider, mb: 5 }} />{" "}
-        {/* ✅ real theme value */}
         {loading && (
           <Stack alignItems="center" py={10} spacing={2}>
             <Box
