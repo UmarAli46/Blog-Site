@@ -81,10 +81,10 @@ function titleInitials(title: string): string {
     .join("");
 }
 
-function getBookmarkKey(): string {
-  const user = auth.currentUser;
-  return user ? `bookmarks_${user.uid}` : "bookmarks_guest";
-}
+// function getBookmarkKey(): string {
+//   const user = auth.currentUser;
+//   return user ? `bookmarks_${user.uid}` : "bookmarks_guest";
+// }
 
 function FeaturedCard({
   post,
@@ -442,7 +442,7 @@ export default function Viewpage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [search, setSearch] = useState("");
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const [bookmarks, setBookmarks] = useState<string[]>([]);
 

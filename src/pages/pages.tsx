@@ -10,7 +10,7 @@ import {
   clearMessages,
 } from "../redux/features/Blogslice";
 import type { Blog } from "../redux/features/Blogslice";
-import { useTheme } from "@mui/material/styles";
+// import { useTheme } from "@mui/material/styles";
 import {
   Box,
   Typography,
@@ -130,7 +130,7 @@ const Pages = () => {
       .split(/\s+/)
       .filter(Boolean).length;
 
-  const theme = useTheme();
+  // const theme = useTheme();
 
   return (
     <Box sx={{ maxWidth: 860, mx: "auto", px: { xs: 2, md: 4 }, py: 5 }}>

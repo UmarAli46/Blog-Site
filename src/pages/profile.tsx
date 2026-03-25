@@ -11,7 +11,6 @@ import {
   Button,
   Avatar,
   Divider,
-  Chip,
   CircularProgress,
   Container,
   Paper,
@@ -24,7 +23,7 @@ import {
   Email as EmailIcon,
   Person as PersonIcon,
   Logout as LogoutIcon,
-  VerifiedUser as VerifiedUserIcon,
+  // VerifiedUser as VerifiedUserIcon,
   AccountCircle as AccountCircleIcon,
 } from "@mui/icons-material";
 

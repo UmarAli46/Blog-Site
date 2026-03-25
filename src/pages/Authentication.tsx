@@ -194,12 +194,12 @@ const Authentication: React.FC = () => {
 
   const handleSignIn = () => {
     signInWithEmailAndPassword(auth, email, password)
-      .then((value) => {
+      .then(() => {
         // alert("Success");
         navigate("/drawer");
         // console.log("YOu ar SIgn in");
       })
-      .catch((err) => alert("Invalid User"));
+      .catch(() => alert("Invalid User"));
   };
 
   const handleSubmit = (): void => {
@@ -211,7 +211,7 @@ const Authentication: React.FC = () => {
   };
 
   const signupwithgoogle = () => {
-    signInWithPopup(auth, googleProvider).then((value) => {
+    signInWithPopup(auth, googleProvider).then(() => {
       navigate("/drawer");
     });
   };
