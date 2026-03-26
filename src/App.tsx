@@ -1,20 +1,38 @@
 import "./App.css";
-import Authentication from "./pages/Authentication";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Heropage from "./pages/Heropage";
-import DrawerSlider from "./pages/Drawer";
-import Pages from "./pages/pages";
-import Viewpage from "./pages/Viewpage";
-import BlogDetail from "./pages/Blogview";
-import Profile from "./pages/profile";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
-import { useState } from "react";
+import { useState, lazy, Suspense } from "react";
+import { CircularProgress, Box } from "@mui/material";
+
+// ✅ Lazy load all pages — each page is only loaded when navigated to
+const Authentication = lazy(() => import("./pages/Authentication"));
+const DrawerSlider = lazy(() => import("./pages/Drawer"));
+const Heropage = lazy(() => import("./pages/Heropage"));
+const Pages = lazy(() => import("./pages/pages"));
+const Viewpage = lazy(() => import("./pages/Viewpage"));
+const BlogDetail = lazy(() => import("./pages/Blogview"));
+const Profile = lazy(() => import("./pages/profile"));
+
+// ✅ Loading spinner shown while a page chunk is being fetched
+const PageLoader = () => (
+  <Box
+    sx={{
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      minHeight: "100vh",
+    }}
+  >
+    <CircularProgress sx={{ color: "#1a6fd4" }} />
+  </Box>
+);
 
 function App() {
   const handleSave = (blog: { title: string; content: string }) => {
     console.log("Blog data:", blog);
   };
+
   const [darkMode, setDarkMode] = useState(false);
 
   const darkTheme = createTheme({
@@ -24,10 +42,10 @@ function App() {
   });
 
   return (
-    <>
-      <BrowserRouter>
-        <ThemeProvider theme={darkTheme}>
-          <CssBaseline />
+    <BrowserRouter>
+      <ThemeProvider theme={darkTheme}>
+        <CssBaseline />
+        <Suspense fallback={<PageLoader />}>
           <Routes>
             <Route path="/" element={<Authentication />} />
             <Route
@@ -39,7 +57,6 @@ function App() {
                 />
               }
             />
-
             <Route
               path="/heropage"
               element={<Heropage onSave={handleSave} />}
@@ -49,9 +66,9 @@ function App() {
             <Route path="/blogview/:id" element={<BlogDetail />} />
             <Route path="/profile" element={<Profile />} />
           </Routes>
-        </ThemeProvider>
-      </BrowserRouter>
-    </>
+        </Suspense>
+      </ThemeProvider>
+    </BrowserRouter>
   );
 }
 
