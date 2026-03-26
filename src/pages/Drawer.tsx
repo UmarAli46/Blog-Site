@@ -350,7 +350,6 @@ export default function DrawerSlider({ change, check }: ChangeEvent) {
         <Box
           sx={{
             display: "flex",
-            // justifyContent: "space-around",
             flexGrow: 1,
             alignItems: "flex-end",
           }}

@@ -55,17 +55,6 @@ const Heropage: React.FC<BlogEditorProps> = ({ onSave }) => {
   return (
     <Box sx={{ maxWidth: 860, mx: "auto", px: { xs: 2, md: 4 }, py: 5 }}>
       <Box sx={{ mb: 4 }}>
-        {/* <Typography
-          variant="overline"
-          sx={{
-            letterSpacing: 3,
-            color: "#1a6fd4",
-            fontFamily: '"DM Sans", sans-serif',
-            fontWeight: 700,
-          }}
-        >
-          Editor
-        </Typography> */}
         <Typography
           variant="h4"
           fontWeight={700}

@@ -14,7 +14,6 @@ import {
   Tooltip,
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-// import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
@@ -115,7 +114,6 @@ export default function BookmarkPage() {
     fetchBookmarks();
   }, [bookmarkIds]);
 
-  // ✅ Remove a single bookmark using user-scoped key
   const removeBookmark = (id: string) => {
     const key = getBookmarkKey();
     const updated = bookmarkIds.filter((b) => b !== id);
@@ -254,27 +252,6 @@ export default function BookmarkPage() {
             >
               Bookmark articles while reading and they'll appear here.
             </Typography>
-            {/* <Button
-              onClick={() => navigate("/drawer")}
-              sx={{
-                mt: 1,
-                color: "#1a6fd4",
-                fontFamily: "'Helvetica Neue', sans-serif",
-                fontSize: "0.75rem",
-                letterSpacing: "0.12em",
-                textTransform: "uppercase",
-                border: "1px solid #b5d4f4",
-                borderRadius: "4px",
-                px: 3,
-                py: 1,
-                "&:hover": {
-                  borderColor: "#1a6fd4",
-                  bgcolor: alpha("#1a6fd4", 0.05),
-                },
-              }}
-            >
-              Browse Articles
-            </Button> */}
           </Stack>
         )}
         {!loading && posts.length > 0 && (

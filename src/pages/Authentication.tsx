@@ -11,10 +11,8 @@ import {
 import {
   Box,
   Button,
-  // Checkbox,
   CircularProgress,
   Divider,
-  // FormControlLabel,
   Grid,
   IconButton,
   InputAdornment,
@@ -140,7 +138,6 @@ const Authentication: React.FC = () => {
   const [confirmPass, setConfirmPass] = useState<string>("");
   const navigate = useNavigate();
   const [showPass, setShowPass] = useState<boolean>(false);
-  // const [remember, setRemember] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [success, setSuccess] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
