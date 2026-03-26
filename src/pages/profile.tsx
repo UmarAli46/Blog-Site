@@ -316,7 +316,7 @@ function Profile() {
             align="center"
             display="block"
           >
-            Your data is secure and encrypted 🔒
+            Your data is secure and encrypted
           </Typography>
         </Container>
       </Box>

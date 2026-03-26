@@ -265,7 +265,7 @@ export default function BookmarkPage() {
                   key={post.id}
                   sx={{
                     bgcolor: "background.paper",
-                    border: `1px solid ${theme.palette.divider}`, // ✅ real theme value
+                    border: `1px solid ${theme.palette.divider}`,
                     borderRadius: "10px",
                     boxShadow: "none",
                     display: "flex",

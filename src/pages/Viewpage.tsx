@@ -576,20 +576,6 @@ export default function Viewpage() {
                 Blogs
               </Typography>
             </Stack>
-            {/* <Button
-              variant="contained"
-              size="small"
-              sx={{
-                bgcolor: "text.primary",
-                borderRadius: 1,
-                textTransform: "uppercase",
-                fontSize: "0.7rem",
-                px: 2,
-                "&:hover": { bgcolor: "#1a6fd4" },
-              }}
-            >
-              Subscribe
-            </Button> */}
           </Stack>
         </Container>
       </Box>
@@ -813,53 +799,6 @@ export default function Viewpage() {
             >
               Get the latest posts straight to your inbox.
             </Typography>
-
-            {/* <Stack
-              direction={{ xs: "column", sm: "row" }}
-              spacing={1.5}
-              width="100%"
-              maxWidth={420}
-            >
-              <TextField
-                placeholder="your@email.com"
-                variant="outlined"
-                size="small"
-                fullWidth
-                sx={{
-                  "& .MuiOutlinedInput-root": {
-                    bgcolor: alpha("#fff", 0.06),
-                    color: "#fff",
-                    fontFamily: "'Helvetica Neue', sans-serif",
-                    fontSize: "0.875rem",
-                    "& fieldset": { borderColor: alpha("#fff", 0.2) },
-                    "&:hover fieldset": { borderColor: alpha("#fff", 0.4) },
-                    "&.Mui-focused fieldset": { borderColor: "#1a6fd4" },
-                  },
-                  "& input::placeholder": {
-                    color: alpha("#fff", 0.35),
-                    opacity: 1,
-                  },
-                }}
-              />
-              <Button
-                variant="contained"
-                sx={{
-                  bgcolor: "#ffffff",
-                  px: 3,
-                  borderRadius: 1,
-                  fontFamily: "'Helvetica Neue', sans-serif",
-                  fontSize: "0.75rem",
-                  fontWeight: 700,
-                  color: "black",
-                  letterSpacing: "0.08em",
-                  textTransform: "uppercase",
-                  whiteSpace: "nowrap",
-                  "&:hover": { bgcolor: "#1558b0", color: "white" },
-                }}
-              >
-                Subscribe
-              </Button>
-            </Stack> */}
           </Stack>
         </Container>
       </Box>

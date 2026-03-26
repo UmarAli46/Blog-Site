@@ -412,25 +412,7 @@ const Pages = () => {
               >
                 Content
               </Typography>
-              {/* <Box
-                sx={{
-                  border: "1px solid",
-                  borderColor: editErrors.content ? "error.main" : "#dde3ee",
-                  borderRadius: 2,
-                  overflow: "hidden",
-                  "& .ck-editor__editable": {
-                    minHeight: "300px !important",
-                    fontSize: "1rem",
-                    lineHeight: 1.8,
-                  },
-                  "& .ck-editor__editable_inline": {
-                    minHeight: "300px !important",
-                  },
-                  "& .ck.ck-toolbar": {
-                    borderBottom: "1px solid #dde3ee",
-                  },
-                }}
-              > */}
+
               <Box
                 sx={{
                   border: "1px solid",

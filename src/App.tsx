@@ -5,7 +5,6 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { useState, lazy, Suspense } from "react";
 import { CircularProgress, Box } from "@mui/material";
 
-// ✅ Lazy load all pages — each page is only loaded when navigated to
 const Authentication = lazy(() => import("./pages/Authentication"));
 const DrawerSlider = lazy(() => import("./pages/Drawer"));
 const Heropage = lazy(() => import("./pages/Heropage"));
@@ -14,7 +13,6 @@ const Viewpage = lazy(() => import("./pages/Viewpage"));
 const BlogDetail = lazy(() => import("./pages/Blogview"));
 const Profile = lazy(() => import("./pages/profile"));
 
-// ✅ Loading spinner shown while a page chunk is being fetched
 const PageLoader = () => (
   <Box
     sx={{
