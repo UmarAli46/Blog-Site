@@ -238,7 +238,7 @@ export default function DrawerSlider({ change, check }: ChangeEvent) {
           </IconButton>
 
           <Typography variant="h5" noWrap>
-            Build Logs
+            Build Blogs
           </Typography>
 
           <Box sx={{ flexGrow: 4, display: "flex", justifyContent: "end" }} />

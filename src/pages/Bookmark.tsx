@@ -254,8 +254,8 @@ export default function BookmarkPage() {
             >
               Bookmark articles while reading and they'll appear here.
             </Typography>
-            <Button
-              onClick={() => navigate("/viewpage")}
+            {/* <Button
+              onClick={() => navigate("/drawer")}
               sx={{
                 mt: 1,
                 color: "#1a6fd4",
@@ -274,7 +274,7 @@ export default function BookmarkPage() {
               }}
             >
               Browse Articles
-            </Button>
+            </Button> */}
           </Stack>
         )}
         {!loading && posts.length > 0 && (

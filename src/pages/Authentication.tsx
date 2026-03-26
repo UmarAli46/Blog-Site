@@ -11,10 +11,10 @@ import {
 import {
   Box,
   Button,
-  Checkbox,
+  // Checkbox,
   CircularProgress,
   Divider,
-  FormControlLabel,
+  // FormControlLabel,
   Grid,
   IconButton,
   InputAdornment,
@@ -26,6 +26,7 @@ import {
   createTheme,
   ThemeProvider,
   CssBaseline,
+  Snackbar,
 } from "@mui/material";
 import {
   Visibility,
@@ -35,8 +36,6 @@ import {
   Person,
   ShoppingBag,
   Google,
-  Apple,
-  Facebook,
   CheckCircleOutline,
 } from "@mui/icons-material";
 
@@ -141,10 +140,13 @@ const Authentication: React.FC = () => {
   const [confirmPass, setConfirmPass] = useState<string>("");
   const navigate = useNavigate();
   const [showPass, setShowPass] = useState<boolean>(false);
-  const [remember, setRemember] = useState<boolean>(false);
+  // const [remember, setRemember] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [success, setSuccess] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
+
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
 
   const switchTab = (t: TabType): void => {
     setTab(t);
@@ -195,11 +197,20 @@ const Authentication: React.FC = () => {
   const handleSignIn = () => {
     signInWithEmailAndPassword(auth, email, password)
       .then(() => {
-        // alert("Success");
         navigate("/drawer");
-        // console.log("YOu ar SIgn in");
       })
-      .catch(() => alert("Invalid User"));
+      .catch(() => {
+        setSnackbarMessage("Invalid User");
+        setOpenSnackbar(true);
+      });
+  };
+
+  const handleCloseSnackbar = (
+    event: React.SyntheticEvent | Event,
+    reason?: string,
+  ) => {
+    if (reason === "clickaway") return;
+    setOpenSnackbar(false);
   };
 
   const handleSubmit = (): void => {
@@ -652,44 +663,7 @@ const Authentication: React.FC = () => {
                 />
               )}
 
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  mb: 2,
-                }}
-              >
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={remember}
-                      onChange={(e) => setRemember(e.target.checked)}
-                      size="small"
-                      sx={{
-                        color: "#bfdbfe",
-                        "&.Mui-checked": { color: "#2563eb" },
-                        p: 0.5,
-                      }}
-                    />
-                  }
-                  label={
-                    <Typography sx={{ fontSize: 12, color: "#7aaacb" }}>
-                      Remember me
-                    </Typography>
-                  }
-                />
-                {tab === "signin" && (
-                  <Link
-                    href="#"
-                    underline="hover"
-                    sx={{ fontSize: 12, color: "#2563eb", fontWeight: 500 }}
-                  >
-                    Forgot Password?
-                  </Link>
-                )}
-              </Box>
-
+              <Divider sx={{ mt: 1 }} />
               <Button
                 fullWidth
                 variant="contained"
@@ -731,14 +705,9 @@ const Authentication: React.FC = () => {
                 </Typography>
               </Divider>
 
-              <Grid container spacing={1}>
+              <Grid container spacing={1} sx={{ width: 1430 }}>
                 {[
                   { icon: <Google sx={{ fontSize: 18 }} />, label: "Google" },
-                  {
-                    icon: <Facebook sx={{ fontSize: 18 }} />,
-                    label: "Facebook",
-                  },
-                  { icon: <Apple sx={{ fontSize: 18 }} />, label: "Apple" },
                 ].map(({ icon, label }) => (
                   <Grid size={4} key={label}>
                     <Button
@@ -794,6 +763,22 @@ const Authentication: React.FC = () => {
           </Box>
         </Paper>
       </Box>
+
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={4000}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      >
+        <Alert
+          onClose={handleCloseSnackbar}
+          severity="error"
+          variant="filled"
+          sx={{ width: "100%" }}
+        >
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </ThemeProvider>
   );
 };

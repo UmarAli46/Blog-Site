@@ -2,7 +2,6 @@ import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { useState } from "react";
 import { saveBlogToFirebase } from "../redux/features/blogService";
-// import { FirebaseUploadAdapterPlugin } from "../firebase/uploadAdopter";
 
 import {
   Box,
@@ -56,7 +55,7 @@ const Heropage: React.FC<BlogEditorProps> = ({ onSave }) => {
   return (
     <Box sx={{ maxWidth: 860, mx: "auto", px: { xs: 2, md: 4 }, py: 5 }}>
       <Box sx={{ mb: 4 }}>
-        <Typography
+        {/* <Typography
           variant="overline"
           sx={{
             letterSpacing: 3,
@@ -66,11 +65,11 @@ const Heropage: React.FC<BlogEditorProps> = ({ onSave }) => {
           }}
         >
           Editor
-        </Typography>
+        </Typography> */}
         <Typography
           variant="h4"
           fontWeight={700}
-          sx={{ letterSpacing: "-0.5px", color: "text.primary" }}
+          sx={{ letterSpacing: "-0.5px", color: "text.primary", mt: 1 }}
         >
           Create a New Blog
         </Typography>
@@ -88,7 +87,7 @@ const Heropage: React.FC<BlogEditorProps> = ({ onSave }) => {
           p: { xs: 3, md: 5 },
           borderRadius: 4,
           border: "1px solid #dde3ee",
-          bgcolor: "#fff",
+          bgcolor: "background.paper",
           overflow: "hidden",
           position: "relative",
           "&::before": {
@@ -117,26 +116,16 @@ const Heropage: React.FC<BlogEditorProps> = ({ onSave }) => {
             "& .MuiOutlinedInput-root": {
               backgroundColor: "background.paper",
               color: "text.primary",
-              "& fieldset": {
-                borderColor: "divider",
-              },
-              "&:hover fieldset": {
-                borderColor: "text.secondary",
-              },
+              "& fieldset": { borderColor: "divider" },
+              "&:hover fieldset": { borderColor: "text.secondary" },
             },
-            "& .MuiInputBase-input": {
-              color: "text.primary",
-            },
+            "& .MuiInputBase-input": { color: "text.primary" },
             "& .MuiInputBase-input::placeholder": {
               color: "text.secondary",
               opacity: 1,
             },
-            "& .MuiInputLabel-root": {
-              color: "text.secondary",
-            },
-            "& .MuiInputLabel-root.Mui-focused": {
-              color: "primary.main",
-            },
+            "& .MuiInputLabel-root": { color: "text.secondary" },
+            "& .MuiInputLabel-root.Mui-focused": { color: "primary.main" },
           }}
         />
 
@@ -156,7 +145,6 @@ const Heropage: React.FC<BlogEditorProps> = ({ onSave }) => {
 
         <Box
           sx={{
-            // height: "200px",
             border: "1px solid",
             borderColor: error ? "error.main" : "#dde3ee",
             borderRadius: 2,
@@ -164,17 +152,27 @@ const Heropage: React.FC<BlogEditorProps> = ({ onSave }) => {
             mb: 3,
             transition: "border-color 0.2s",
             "&:focus-within": { borderColor: "#1a6fd4" },
+
             "& .ck-editor__editable": {
+              minHeight: "300px !important",
               backgroundColor: isDark
                 ? "#1e1e1e !important"
                 : "#fff !important",
               color: isDark ? "#f5f5f5 !important" : "#0a0a0a !important",
+              fontSize: "1rem",
+              lineHeight: "1.8",
+            },
+            "& .ck-editor__editable_inline": {
+              minHeight: "300px !important",
             },
             "& .ck.ck-toolbar": {
               backgroundColor: isDark
                 ? "#2a2a2a !important"
                 : "#f5f5f5 !important",
               borderColor: isDark ? "#444 !important" : "#ccc !important",
+              borderBottom: isDark
+                ? "1px solid #444 !important"
+                : "1px solid #dde3ee !important",
             },
             "& .ck.ck-button": {
               color: isDark ? "#f5f5f5 !important" : "#0a0a0a !important",
@@ -191,6 +189,9 @@ const Heropage: React.FC<BlogEditorProps> = ({ onSave }) => {
             "& .ck.ck-list__item .ck-button": {
               color: isDark ? "#f5f5f5 !important" : "#0a0a0a !important",
             },
+            "& .ck.ck-heading_heading1": { fontSize: "1.8rem !important" },
+            "& .ck.ck-heading_heading2": { fontSize: "1.5rem !important" },
+            "& .ck.ck-heading_heading3": { fontSize: "1.2rem !important" },
           }}
         >
           <CKEditor
@@ -260,13 +261,14 @@ const Heropage: React.FC<BlogEditorProps> = ({ onSave }) => {
             alignItems: "center",
             justifyContent: "space-between",
             pt: 2.5,
-            borderTop: "1px solid #dde3ee",
+            borderTop: "1px solid",
+            borderColor: "divider",
           }}
         >
           <Typography
             variant="caption"
             sx={{
-              color: "#bbb",
+              color: "text.disabled",
               fontFamily: '"DM Sans", sans-serif',
               fontSize: "0.75rem",
             }}

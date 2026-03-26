@@ -530,7 +530,13 @@ export default function Viewpage() {
   const rest = filtered.slice(1);
 
   return (
-    <Box sx={{ bgcolor: "background.default", minHeight: "100vh" }}>
+    <Box
+      sx={{
+        bgcolor: "background.default",
+        minHeight: "100vh",
+        // minWidth: "100%",
+      }}
+    >
       <Box
         sx={{
           borderBottom: "1px solid #dde3ee",
@@ -570,7 +576,7 @@ export default function Viewpage() {
                 Blogs
               </Typography>
             </Stack>
-            <Button
+            {/* <Button
               variant="contained"
               size="small"
               sx={{
@@ -583,7 +589,7 @@ export default function Viewpage() {
               }}
             >
               Subscribe
-            </Button>
+            </Button> */}
           </Stack>
         </Container>
       </Box>
@@ -807,7 +813,8 @@ export default function Viewpage() {
             >
               Get the latest posts straight to your inbox.
             </Typography>
-            <Stack
+
+            {/* <Stack
               direction={{ xs: "column", sm: "row" }}
               spacing={1.5}
               width="100%"
@@ -852,7 +859,7 @@ export default function Viewpage() {
               >
                 Subscribe
               </Button>
-            </Stack>
+            </Stack> */}
           </Stack>
         </Container>
       </Box>
