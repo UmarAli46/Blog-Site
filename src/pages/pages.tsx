@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-import { FirebaseUploadAdapterPlugin } from "../firebase/uploadAdopter";
 import { useAppDispatch, useAppSelector } from "../redux/Bloghooks";
 import {
   fetchBlogsRequest,
@@ -10,7 +9,6 @@ import {
   clearMessages,
 } from "../redux/features/Blogslice";
 import type { Blog } from "../redux/features/Blogslice";
-// import { useTheme } from "@mui/material/styles";
 import {
   Box,
   Typography,
@@ -37,6 +35,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
+import { useTheme } from "@mui/material/styles";
 
 const BlogCardSkeleton = () => (
   <Card
@@ -69,8 +68,9 @@ const Pages = () => {
     title?: string;
     content?: string;
   }>({});
-
   const [deleteId, setDeleteId] = useState<string | null>(null);
+  const theme = useTheme();
+  const isDark = theme.palette.mode === "dark";
 
   useEffect(() => {
     dispatch(fetchBlogsRequest());
@@ -129,8 +129,6 @@ const Pages = () => {
       .trim()
       .split(/\s+/)
       .filter(Boolean).length;
-
-  // const theme = useTheme();
 
   return (
     <Box sx={{ maxWidth: 860, mx: "auto", px: { xs: 2, md: 4 }, py: 5 }}>
@@ -194,7 +192,7 @@ const Pages = () => {
               py: 12,
               border: "1px dashed #b5d4f4",
               borderRadius: 3,
-              bgcolor: "#f5f8fe",
+              bgcolor: "background.default",
             }}
           >
             <ArticleOutlinedIcon
@@ -239,16 +237,12 @@ const Pages = () => {
                   />
                   <Typography
                     variant="caption"
-                    sx={{
-                      fontFamily: '"DM Sans", sans-serif',
-                      color: "#888",
-                    }}
+                    sx={{ fontFamily: '"DM Sans", sans-serif', color: "#888" }}
                   >
                     {formatDate(blog.createdAt)} · {wordCount(blog.content)}{" "}
                     words
                   </Typography>
                 </Stack>
-
                 <Typography
                   variant="h5"
                   fontWeight={700}
@@ -261,7 +255,6 @@ const Pages = () => {
                 >
                   {blog.title}
                 </Typography>
-
                 <Typography
                   variant="body2"
                   color="text.secondary"
@@ -277,7 +270,7 @@ const Pages = () => {
                 </Typography>
               </CardContent>
 
-              <Divider sx={{ borderColor: "text.primary" }} />
+              <Divider sx={{ borderColor: "divider" }} />
 
               <CardActions
                 sx={{
@@ -305,7 +298,6 @@ const Pages = () => {
                     <EditIcon fontSize="small" />
                   </IconButton>
                 </Tooltip>
-
                 <Tooltip title="Delete blog">
                   <IconButton
                     size="small"
@@ -326,7 +318,6 @@ const Pages = () => {
                     )}
                   </IconButton>
                 </Tooltip>
-
                 <Button
                   size="small"
                   variant="outlined"
@@ -362,7 +353,7 @@ const Pages = () => {
           sx: {
             borderRadius: 4,
             border: "1px solid #dde3ee",
-            bgcolor: "#fff",
+            bgcolor: "background.paper",
             overflow: "hidden",
           },
         }}
@@ -379,7 +370,7 @@ const Pages = () => {
             fontSize: "1.6rem",
             fontWeight: 700,
             pb: 1,
-            color: "#0a0a0a",
+            color: "text.primary",
           }}
         >
           Edit Blog Post
@@ -421,27 +412,108 @@ const Pages = () => {
               >
                 Content
               </Typography>
-              <Box
+              {/* <Box
                 sx={{
                   border: "1px solid",
                   borderColor: editErrors.content ? "error.main" : "#dde3ee",
                   borderRadius: 2,
                   overflow: "hidden",
                   "& .ck-editor__editable": {
-                    minHeight: 280,
+                    minHeight: "300px !important",
                     fontSize: "1rem",
                     lineHeight: 1.8,
                   },
+                  "& .ck-editor__editable_inline": {
+                    minHeight: "300px !important",
+                  },
                   "& .ck.ck-toolbar": {
                     borderBottom: "1px solid #dde3ee",
+                  },
+                }}
+              > */}
+              <Box
+                sx={{
+                  border: "1px solid",
+                  borderColor: error ? "error.main" : "#dde3ee",
+                  borderRadius: 2,
+                  overflow: "hidden",
+                  mb: 3,
+                  transition: "border-color 0.2s",
+                  "&:focus-within": { borderColor: "#1a6fd4" },
+
+                  "& .ck-editor__editable": {
+                    minHeight: "300px !important",
+                    backgroundColor: isDark
+                      ? "#1e1e1e !important"
+                      : "#fff !important",
+                    color: isDark ? "#f5f5f5 !important" : "#0a0a0a !important",
+                    fontSize: "1rem",
+                    lineHeight: "1.8",
+                  },
+                  "& .ck-editor__editable_inline": {
+                    minHeight: "300px !important",
+                  },
+                  "& .ck.ck-toolbar": {
+                    backgroundColor: isDark
+                      ? "#2a2a2a !important"
+                      : "#f5f5f5 !important",
+                    borderColor: isDark ? "#444 !important" : "#ccc !important",
+                    borderBottom: isDark
+                      ? "1px solid #444 !important"
+                      : "1px solid #dde3ee !important",
+                  },
+                  "& .ck.ck-button": {
+                    color: isDark ? "#f5f5f5 !important" : "#0a0a0a !important",
+                  },
+                  "& .ck.ck-icon": {
+                    color: isDark ? "#f5f5f5 !important" : "#0a0a0a !important",
+                  },
+                  "& .ck.ck-dropdown__panel": {
+                    backgroundColor: isDark
+                      ? "#2a2a2a !important"
+                      : "#fff !important",
+                    borderColor: isDark ? "#444 !important" : "#ccc !important",
+                  },
+                  "& .ck.ck-list__item .ck-button": {
+                    color: isDark ? "#f5f5f5 !important" : "#0a0a0a !important",
+                  },
+                  "& .ck.ck-heading_heading1": {
+                    fontSize: "1.8rem !important",
+                  },
+                  "& .ck.ck-heading_heading2": {
+                    fontSize: "1.5rem !important",
+                  },
+                  "& .ck.ck-heading_heading3": {
+                    fontSize: "1.2rem !important",
                   },
                 }}
               >
                 <CKEditor
                   editor={ClassicEditor}
                   data={editContent}
+                  onReady={(editor: any) => {
+                    editor.plugins.get("FileRepository").createUploadAdapter = (
+                      loader: any,
+                    ) => {
+                      return {
+                        upload() {
+                          return loader.file.then((file: File) => {
+                            return new Promise<{ default: string }>(
+                              (resolve, reject) => {
+                                const reader = new FileReader();
+                                reader.onload = () =>
+                                  resolve({ default: reader.result as string });
+                                reader.onerror = (err) => reject(err);
+                                reader.readAsDataURL(file);
+                              },
+                            );
+                          });
+                        },
+                        abort() {},
+                      };
+                    };
+                  }}
                   config={{
-                    extraPlugins: [FirebaseUploadAdapterPlugin],
                     toolbar: [
                       "heading",
                       "|",
@@ -487,7 +559,7 @@ const Pages = () => {
             sx={{
               color: "text.secondary",
               fontFamily: '"DM Sans", sans-serif',
-              "&:hover": { color: "#0a0a0a", bgcolor: "#f5f7fa" },
+              "&:hover": { bgcolor: "background.default" },
             }}
           >
             Cancel
@@ -511,6 +583,7 @@ const Pages = () => {
           </Button>
         </DialogActions>
       </Dialog>
+
       <Dialog
         open={!!deleteId}
         onClose={() => setDeleteId(null)}
@@ -518,7 +591,7 @@ const Pages = () => {
           sx: {
             borderRadius: 3,
             border: "1px solid #dde3ee",
-            bgcolor: "#fff",
+            bgcolor: "background.paper",
             overflow: "hidden",
           },
         }}
@@ -534,7 +607,7 @@ const Pages = () => {
             fontFamily: '"Crimson Pro", serif',
             fontSize: "1.4rem",
             fontWeight: 700,
-            color: "#0a0a0a",
+            color: "text.primary",
           }}
         >
           Delete this blog?
@@ -555,7 +628,7 @@ const Pages = () => {
             sx={{
               color: "text.secondary",
               fontFamily: '"DM Sans", sans-serif',
-              "&:hover": { color: "#0a0a0a", bgcolor: "background.default" },
+              "&:hover": { bgcolor: "background.default" },
             }}
           >
             Cancel
@@ -583,13 +656,13 @@ const Pages = () => {
         anchorOrigin={{ vertical: "top", horizontal: "right" }}
       >
         <Alert
-          severity="warning"
+          severity="success"
           icon={<CheckCircleOutlineIcon />}
           onClose={() => dispatch(clearMessages())}
           sx={{
             borderRadius: 2,
             boxShadow: "0 4px 20px rgba(26,111,212,0.15)",
-            border: "1px solid #f16a6a",
+            border: "1px solid #b5d4f4",
           }}
         >
           {successMessage}
