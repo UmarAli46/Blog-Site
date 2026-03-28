@@ -35,7 +35,6 @@ import {
   CheckCircleOutline,
 } from "@mui/icons-material";
 
-// ─── Google SVG Icon ──────────────────────────────────────────────────────────
 const GoogleIcon = () => (
   <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
     <path
@@ -57,7 +56,6 @@ const GoogleIcon = () => (
   </svg>
 );
 
-// ─── Brand Panel (left column) ────────────────────────────────────────────────
 const BrandPanel: React.FC = () => (
   <Box
     sx={{
@@ -144,7 +142,6 @@ const BrandPanel: React.FC = () => (
   </Box>
 );
 
-// ─── Sign-In Panel ────────────────────────────────────────────────────────────
 const SignInPanel: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
   const [showPass, setShowPass] = useState(false);
   const [email, setEmail] = useState("");
@@ -203,7 +200,6 @@ const SignInPanel: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
         Sign in to continue writing and reading.
       </Typography>
 
-      {/* Google OAuth */}
       <Button
         fullWidth
         variant="outlined"
@@ -370,7 +366,6 @@ const SignInPanel: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
   );
 };
 
-// ─── Sign-Up Panel ────────────────────────────────────────────────────────────
 const SignUpPanel: React.FC = () => {
   const [showPass, setShowPass] = useState(false);
   const [firstName, setFirstName] = useState("");
@@ -424,7 +419,6 @@ const SignUpPanel: React.FC = () => {
       .catch((err) => setError(err.message || "Google sign-up failed."));
   };
 
-  // ── Success overlay ──────────────────────────────────────────────────────
   if (success) {
     return (
       <Box
@@ -496,7 +490,6 @@ const SignUpPanel: React.FC = () => {
         Create your free Inkwell account in seconds.
       </Typography>
 
-      {/* Google OAuth */}
       <Button
         fullWidth
         variant="outlined"
@@ -674,7 +667,6 @@ const SignUpPanel: React.FC = () => {
   );
 };
 
-// ─── Main Authentication Component ───────────────────────────────────────────
 const Authpage: React.FC = () => {
   const [tab, setTab] = useState(0);
 
@@ -711,10 +703,8 @@ const Authpage: React.FC = () => {
           maxWidth: 1100,
         }}
       >
-        {/* Left branding column */}
         <BrandPanel />
 
-        {/* Right auth card */}
         <Paper
           elevation={0}
           sx={{
@@ -728,7 +718,6 @@ const Authpage: React.FC = () => {
             animation: "fadeSlideUp 0.7s 0.15s ease both",
           }}
         >
-          {/* Tab switcher */}
           <Box
             sx={{ bgcolor: "#ede8e1", borderRadius: "10px", p: "4px", mb: 4 }}
           >
@@ -762,7 +751,6 @@ const Authpage: React.FC = () => {
             </Tabs>
           </Box>
 
-          {/* Panel content */}
           {tab === 0 ? (
             <SignInPanel onSwitch={() => setTab(1)} />
           ) : (
