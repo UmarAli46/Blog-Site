@@ -5,7 +5,8 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { useState, lazy, Suspense } from "react";
 import { CircularProgress, Box } from "@mui/material";
 
-const Authentication = lazy(() => import("./pages/Authentication"));
+// const Authentication = lazy(() => import("./pages/Authentication"));
+const Authpage = lazy(() => import("./pages/Authpage"));
 const DrawerSlider = lazy(() => import("./pages/Drawer"));
 const Heropage = lazy(() => import("./pages/Heropage"));
 const Pages = lazy(() => import("./pages/pages"));
@@ -45,7 +46,7 @@ function App() {
         <CssBaseline />
         <Suspense fallback={<PageLoader />}>
           <Routes>
-            <Route path="/" element={<Authentication />} />
+            <Route path="/" element={<Authpage />} />
             <Route
               path="/drawer"
               element={
