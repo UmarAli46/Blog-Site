@@ -1,4 +1,3 @@
-
 import { call, put, takeLatest } from 'redux-saga/effects';
 import {
   fetchQuoteRequest,
@@ -8,10 +7,11 @@ import {
 } from '../features/Quoteslice';
 
 async function fetchRandomQuote(): Promise<Quote> {
-  const res = await fetch('https://zenquotes.io/api/random');
+
+  const res = await fetch('https://dummyjson.com/quotes/random');
   if (!res.ok) throw new Error('Failed to fetch quote');
   const data = await res.json();
-  return { content: data.p, author: data.a };
+  return { content: data.quote, author: data.author };
 }
 
 function* fetchQuoteSaga() {
