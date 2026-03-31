@@ -249,7 +249,7 @@ export default function DrawerSlider() {
                 >
                   Build
                   <Box component="span" sx={{ color: "primary.main" }}>
-                    Logs
+                    Blogs
                   </Box>
                 </Typography>
               </Box>
