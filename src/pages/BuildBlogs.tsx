@@ -917,212 +917,212 @@ const ArticleCard: React.FC<{
   );
 };
 
-const CreatorSection: React.FC = () => {
-  const theme = useTheme();
-  const isDark = theme.palette.mode === "dark";
+// const CreatorSection: React.FC = () => {
+//   const theme = useTheme();
+//   const isDark = theme.palette.mode === "dark";
 
-  return (
-    <Paper
-      elevation={0}
-      sx={{
-        bgcolor: isDark ? "#111111" : "grey.50",
-        borderRadius: 4,
-        p: { xs: 3, md: 5 },
-        mt: 2,
-        display: "grid",
-        gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" },
-        gap: 4,
-        border: "1px solid",
-        borderColor: isDark ? "rgba(255,255,255,0.06)" : "divider",
-      }}
-    >
-      <Box>
-        <Typography
-          sx={{
-            fontSize: "0.68rem",
-            fontWeight: 600,
-            letterSpacing: "0.15em",
-            textTransform: "uppercase",
-            color: "#C26E3E",
-            mb: 1.5,
-          }}
-        >
-          By the creator
-        </Typography>
-        <Typography
-          sx={{
-            fontFamily: `'Playfair Display',serif`,
-            fontStyle: "italic",
-            fontSize: { xs: "1.1rem", md: "1.3rem" },
-            lineHeight: 1.65,
-            color: isDark ? "rgba(255,255,255,0.85)" : "text.primary",
-            mb: 2.5,
-          }}
-        >
-          "I built BuildLogs because I wanted a space where builders share what
-          they actually learned — not just what worked, but what didn't."
-        </Typography>
-        <Box sx={{ display: "flex", alignItems: "center", gap: 1.75 }}>
-          <Avatar
-            sx={{
-              width: 48,
-              height: 48,
-              background: "linear-gradient(135deg,#C26E3E,#E58D5B)",
-              fontSize: "1.1rem",
-              fontWeight: 700,
-              border: "2px solid rgba(194,110,62,0.4)",
-              fontFamily: `'Playfair Display',serif`,
-            }}
-          >
-            HK
-          </Avatar>
-          <Box>
-            <Typography
-              sx={{
-                fontSize: "0.95rem",
-                fontWeight: 600,
-                color: isDark ? "white" : "text.primary",
-                mb: 0.25,
-              }}
-            >
-              Haris Khan
-            </Typography>
-            <Typography
-              sx={{
-                fontSize: "0.78rem",
-                color: isDark ? "rgba(255,255,255,0.4)" : "text.secondary",
-              }}
-            >
-              Founder · Full-Stack Developer · Pakistan
-            </Typography>
-          </Box>
-        </Box>
-      </Box>
+//   return (
+//     <Paper
+//       elevation={0}
+//       sx={{
+//         bgcolor: isDark ? "#111111" : "grey.50",
+//         borderRadius: 4,
+//         p: { xs: 3, md: 5 },
+//         mt: 2,
+//         display: "grid",
+//         gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" },
+//         gap: 4,
+//         border: "1px solid",
+//         borderColor: isDark ? "rgba(255,255,255,0.06)" : "divider",
+//       }}
+//     >
+//       <Box>
+//         <Typography
+//           sx={{
+//             fontSize: "0.68rem",
+//             fontWeight: 600,
+//             letterSpacing: "0.15em",
+//             textTransform: "uppercase",
+//             color: "#C26E3E",
+//             mb: 1.5,
+//           }}
+//         >
+//           By the creator
+//         </Typography>
+//         <Typography
+//           sx={{
+//             fontFamily: `'Playfair Display',serif`,
+//             fontStyle: "italic",
+//             fontSize: { xs: "1.1rem", md: "1.3rem" },
+//             lineHeight: 1.65,
+//             color: isDark ? "rgba(255,255,255,0.85)" : "text.primary",
+//             mb: 2.5,
+//           }}
+//         >
+//           "I built BuildLogs because I wanted a space where builders share what
+//           they actually learned — not just what worked, but what didn't."
+//         </Typography>
+//         <Box sx={{ display: "flex", alignItems: "center", gap: 1.75 }}>
+//           <Avatar
+//             sx={{
+//               width: 48,
+//               height: 48,
+//               background: "linear-gradient(135deg,#C26E3E,#E58D5B)",
+//               fontSize: "1.1rem",
+//               fontWeight: 700,
+//               border: "2px solid rgba(194,110,62,0.4)",
+//               fontFamily: `'Playfair Display',serif`,
+//             }}
+//           >
+//             HK
+//           </Avatar>
+//           <Box>
+//             <Typography
+//               sx={{
+//                 fontSize: "0.95rem",
+//                 fontWeight: 600,
+//                 color: isDark ? "white" : "text.primary",
+//                 mb: 0.25,
+//               }}
+//             >
+//               Haris Khan
+//             </Typography>
+//             <Typography
+//               sx={{
+//                 fontSize: "0.78rem",
+//                 color: isDark ? "rgba(255,255,255,0.4)" : "text.secondary",
+//               }}
+//             >
+//               Founder · Full-Stack Developer · Pakistan
+//             </Typography>
+//           </Box>
+//         </Box>
+//       </Box>
 
-      <Box
-        sx={{
-          borderLeft: { md: "1px solid" },
-          borderColor: isDark
-            ? { md: "rgba(255,255,255,0.07)" }
-            : { md: "divider" },
-          pl: { md: 4 },
-        }}
-      >
-        <Stack spacing={1.5} sx={{ mb: 2.5 }}>
-          {[
-            {
-              label: "React · TypeScript · Redux",
-              sub: "Frontend architecture",
-              icon: "</>",
-            },
-            {
-              label: "Firebase · Firestore",
-              sub: "Backend & database",
-              icon: "DB",
-            },
-            { label: "MUI · Tailwind", sub: "UI & design systems", icon: "UI" },
-          ].map((skill) => (
-            <Box
-              key={skill.label}
-              sx={{ display: "flex", alignItems: "center", gap: 1.5 }}
-            >
-              <Box
-                sx={{
-                  width: 36,
-                  height: 36,
-                  borderRadius: "8px",
-                  bgcolor: isDark
-                    ? "rgba(255,255,255,0.05)"
-                    : "rgba(0,0,0,0.04)",
-                  border: "1px solid",
-                  borderColor: isDark
-                    ? "rgba(255,255,255,0.08)"
-                    : "rgba(0,0,0,0.1)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  flexShrink: 0,
-                }}
-              >
-                <Typography
-                  sx={{
-                    fontSize: "0.58rem",
-                    fontWeight: 700,
-                    color: "#C26E3E",
-                  }}
-                >
-                  {skill.icon}
-                </Typography>
-              </Box>
-              <Box>
-                <Typography
-                  sx={{
-                    fontSize: "0.85rem",
-                    fontWeight: 500,
-                    color: isDark ? "rgba(255,255,255,0.75)" : "text.primary",
-                  }}
-                >
-                  {skill.label}
-                </Typography>
-                <Typography
-                  sx={{
-                    fontSize: "0.72rem",
-                    color: isDark ? "rgba(255,255,255,0.3)" : "text.secondary",
-                  }}
-                >
-                  {skill.sub}
-                </Typography>
-              </Box>
-            </Box>
-          ))}
-        </Stack>
-        <Box
-          sx={{
-            display: "flex",
-            gap: 1.25,
-            borderTop: "1px solid",
-            borderColor: isDark ? "rgba(255,255,255,0.07)" : "divider",
-            pt: 2,
-          }}
-        >
-          <Button
-            variant="contained"
-            disableElevation
-            sx={{
-              bgcolor: "#C26E3E",
-              color: "white",
-              fontWeight: 600,
-              fontSize: "0.8rem",
-              px: 2.5,
-              borderRadius: "8px",
-              "&:hover": { bgcolor: "#E58D5B" },
-            }}
-          >
-            Read my story ↗
-          </Button>
-          <Button
-            variant="outlined"
-            sx={{
-              color: isDark ? "rgba(255,255,255,0.55)" : "text.secondary",
-              borderColor: isDark
-                ? "rgba(255,255,255,0.15)"
-                : "rgba(0,0,0,0.2)",
-              fontSize: "0.8rem",
-              borderRadius: "8px",
-              "&:hover": {
-                borderColor: isDark ? "rgba(255,255,255,0.4)" : "text.primary",
-                color: isDark ? "white" : "text.primary",
-                bgcolor: "transparent",
-              },
-            }}
-          >
-            View profile
-          </Button>
-        </Box>
-      </Box>
-    </Paper>
-  );
-};
+//       <Box
+//         sx={{
+//           borderLeft: { md: "1px solid" },
+//           borderColor: isDark
+//             ? { md: "rgba(255,255,255,0.07)" }
+//             : { md: "divider" },
+//           pl: { md: 4 },
+//         }}
+//       >
+//         <Stack spacing={1.5} sx={{ mb: 2.5 }}>
+//           {[
+//             {
+//               label: "React · TypeScript · Redux",
+//               sub: "Frontend architecture",
+//               icon: "</>",
+//             },
+//             {
+//               label: "Firebase · Firestore",
+//               sub: "Backend & database",
+//               icon: "DB",
+//             },
+//             { label: "MUI · Tailwind", sub: "UI & design systems", icon: "UI" },
+//           ].map((skill) => (
+//             <Box
+//               key={skill.label}
+//               sx={{ display: "flex", alignItems: "center", gap: 1.5 }}
+//             >
+//               <Box
+//                 sx={{
+//                   width: 36,
+//                   height: 36,
+//                   borderRadius: "8px",
+//                   bgcolor: isDark
+//                     ? "rgba(255,255,255,0.05)"
+//                     : "rgba(0,0,0,0.04)",
+//                   border: "1px solid",
+//                   borderColor: isDark
+//                     ? "rgba(255,255,255,0.08)"
+//                     : "rgba(0,0,0,0.1)",
+//                   display: "flex",
+//                   alignItems: "center",
+//                   justifyContent: "center",
+//                   flexShrink: 0,
+//                 }}
+//               >
+//                 <Typography
+//                   sx={{
+//                     fontSize: "0.58rem",
+//                     fontWeight: 700,
+//                     color: "#C26E3E",
+//                   }}
+//                 >
+//                   {skill.icon}
+//                 </Typography>
+//               </Box>
+//               <Box>
+//                 <Typography
+//                   sx={{
+//                     fontSize: "0.85rem",
+//                     fontWeight: 500,
+//                     color: isDark ? "rgba(255,255,255,0.75)" : "text.primary",
+//                   }}
+//                 >
+//                   {skill.label}
+//                 </Typography>
+//                 <Typography
+//                   sx={{
+//                     fontSize: "0.72rem",
+//                     color: isDark ? "rgba(255,255,255,0.3)" : "text.secondary",
+//                   }}
+//                 >
+//                   {skill.sub}
+//                 </Typography>
+//               </Box>
+//             </Box>
+//           ))}
+//         </Stack>
+//         <Box
+//           sx={{
+//             display: "flex",
+//             gap: 1.25,
+//             borderTop: "1px solid",
+//             borderColor: isDark ? "rgba(255,255,255,0.07)" : "divider",
+//             pt: 2,
+//           }}
+//         >
+//           <Button
+//             variant="contained"
+//             disableElevation
+//             sx={{
+//               bgcolor: "#C26E3E",
+//               color: "white",
+//               fontWeight: 600,
+//               fontSize: "0.8rem",
+//               px: 2.5,
+//               borderRadius: "8px",
+//               "&:hover": { bgcolor: "#E58D5B" },
+//             }}
+//           >
+//             Read my story ↗
+//           </Button>
+//           <Button
+//             variant="outlined"
+//             sx={{
+//               color: isDark ? "rgba(255,255,255,0.55)" : "text.secondary",
+//               borderColor: isDark
+//                 ? "rgba(255,255,255,0.15)"
+//                 : "rgba(0,0,0,0.2)",
+//               fontSize: "0.8rem",
+//               borderRadius: "8px",
+//               "&:hover": {
+//                 borderColor: isDark ? "rgba(255,255,255,0.4)" : "text.primary",
+//                 color: isDark ? "white" : "text.primary",
+//                 bgcolor: "transparent",
+//               },
+//             }}
+//           >
+//             View profile
+//           </Button>
+//         </Box>
+//       </Box>
+//     </Paper>
+//   );
+// };
 
 const EmptyState: React.FC<{ hasPosts: boolean }> = ({ hasPosts }) => (
   <Box sx={{ textAlign: "center", py: 10 }}>
@@ -1310,7 +1310,7 @@ const BuildBlogs = ({ searchQuery = "" }: { searchQuery?: string }) => {
                 )}
               </>
             )}
-            <CreatorSection />
+            {/* <CreatorSection /> */}
           </Container>
         </>
       )}
