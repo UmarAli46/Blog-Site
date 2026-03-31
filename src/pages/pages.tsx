@@ -118,7 +118,6 @@ const Pages = () => {
       .split(/\s+/)
       .filter(Boolean).length;
 
-  // Shared CKEditor style block
   const ckStyles = {
     border: "1px solid",
     borderColor: "divider",
@@ -190,7 +189,6 @@ const Pages = () => {
 
   return (
     <Box sx={{ maxWidth: 860, mx: "auto", px: { xs: 2, md: 4 }, py: 5 }}>
-      {/* Header */}
       <Stack
         direction="row"
         justifyContent="space-between"
@@ -561,6 +559,7 @@ const Pages = () => {
         anchorOrigin={{ vertical: "top", horizontal: "right" }}
       >
         <Alert
+          variant="filled"
           severity="success"
           icon={<CheckCircleOutlineIcon />}
           onClose={() => dispatch(clearMessages())}

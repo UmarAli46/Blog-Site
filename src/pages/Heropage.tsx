@@ -51,7 +51,6 @@ const Heropage: React.FC<BlogEditorProps> = ({ onSave }) => {
     }
   };
 
-  // CKEditor inline style block — reads theme values
   const ckStyles = {
     border: "1px solid",
     borderColor: error ? "error.main" : "divider",
@@ -87,7 +86,6 @@ const Heropage: React.FC<BlogEditorProps> = ({ onSave }) => {
 
   return (
     <Box sx={{ maxWidth: 860, mx: "auto", px: { xs: 2, md: 4 }, py: 5 }}>
-      {/* Header */}
       <Box sx={{ mb: 4 }}>
         <Typography
           variant="h4"
@@ -261,6 +259,7 @@ const Heropage: React.FC<BlogEditorProps> = ({ onSave }) => {
         anchorOrigin={{ vertical: "top", horizontal: "right" }}
       >
         <Alert
+          variant="filled"
           severity="success"
           icon={<CheckCircleOutlineIcon />}
           onClose={() => setSuccessOpen(false)}
@@ -270,7 +269,7 @@ const Heropage: React.FC<BlogEditorProps> = ({ onSave }) => {
             borderColor: "primary.light",
           }}
         >
-          Blog published! ✦
+          Blog published successfully!
         </Alert>
       </Snackbar>
     </Box>
