@@ -10,7 +10,7 @@ const Authpage = lazy(() => import("./pages/Authpage"));
 const DrawerSlider = lazy(() => import("./pages/Drawer"));
 const Heropage = lazy(() => import("./pages/Heropage"));
 const Pages = lazy(() => import("./pages/pages"));
-const Viewpage = lazy(() => import("./pages/Viewpage"));
+// const Viewpage = lazy(() => import("./pages/Viewpage"));
 const BlogDetail = lazy(() => import("./pages/Blogview"));
 const Profile = lazy(() => import("./pages/profile"));
 
@@ -53,7 +53,7 @@ function App() {
               element={<Heropage onSave={handleSave} />}
             />
             <Route path="/pages" element={<Pages />} />
-            <Route path="/viewpage" element={<Viewpage />} />
+            {/* <Route path="/viewpage" element={<Viewpage />} /> */}
             <Route path="/blogview/:id" element={<BlogDetail />} />
             <Route path="/profile" element={<Profile />} />
           </Routes>
