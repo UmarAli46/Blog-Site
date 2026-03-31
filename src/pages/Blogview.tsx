@@ -402,7 +402,7 @@ export default function BlogDetail() {
               }}
             />
 
-            <Divider sx={{ mt: 8, mb: 4 }} />
+            {/* <Divider sx={{ mt: 8, mb: 4 }} />
 
             <Button
               startIcon={<ArrowBackIcon />}
@@ -424,7 +424,7 @@ export default function BlogDetail() {
               }}
             >
               Back to Articles
-            </Button>
+            </Button> */}
           </Container>
         </>
       )}

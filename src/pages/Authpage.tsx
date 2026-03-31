@@ -630,7 +630,7 @@ const Authpage: React.FC = () => {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          gap: { md: 10, lg: 14 },
+          gap: { md: 10, lg: 30 },
           width: "100%",
           maxWidth: 1060,
         }}
