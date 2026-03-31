@@ -12,7 +12,7 @@ import {
   Divider,
   Tooltip,
 } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
+// import { useTheme } from "@mui/material/styles";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
@@ -66,8 +66,8 @@ function titleInitials(title: string) {
 
 export default function BookmarkPage() {
   const navigate = useNavigate();
-  const theme = useTheme();
-  const isDark = theme.palette.mode === "dark";
+  // const theme = useTheme();
+  // const isDark = theme.palette.mode === "dark";
 
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);

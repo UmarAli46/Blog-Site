@@ -32,7 +32,7 @@ function App() {
     console.log("Blog data:", blog);
   };
 
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode] = useState(false);
 
   const darkTheme = createTheme({
     palette: {

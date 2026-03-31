@@ -8,10 +8,10 @@ import {
   Typography,
   Button,
   Avatar,
-  Divider,
+  // Divider,
   CircularProgress,
   Container,
-  Stack,
+  // Stack,
   alpha,
 } from "@mui/material";
 import {
@@ -38,8 +38,8 @@ function InfoRow({
   label: string;
   value: string;
 }) {
-  const theme = useTheme();
-  const isDark = theme.palette.mode === "dark";
+  // const theme = useTheme();
+  // const isDark = theme.palette.mode === "dark";
 
   return (
     <Box

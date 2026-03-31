@@ -1,4 +1,4 @@
-// src/redux/features/quoteSlice.ts
+
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
 export interface Quote {

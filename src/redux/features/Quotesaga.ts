@@ -8,10 +8,10 @@ import {
 } from '../features/Quoteslice';
 
 async function fetchRandomQuote(): Promise<Quote> {
-  const res = await fetch('https://api.quotable.io/random?maxLength=180');
+  const res = await fetch('https://zenquotes.io/api/random');
   if (!res.ok) throw new Error('Failed to fetch quote');
   const data = await res.json();
-  return { content: data.content, author: data.author };
+  return { content: data.p, author: data.a };
 }
 
 function* fetchQuoteSaga() {

@@ -2,7 +2,7 @@ import React, { useState, useMemo, useEffect } from "react";
 import {
   Box,
   Typography,
-  InputBase,
+  // InputBase,
   Button,
   IconButton,
   Card,
@@ -118,7 +118,6 @@ const SectionLabel: React.FC<{
   </Box>
 );
 
-// ─── Quote Card ───────────────────────────────────────────────────────────────
 const QuoteCard: React.FC = () => {
   const dispatch = useAppDispatch();
   const { quote, loading } = useAppSelector((s: any) => s.quote);
@@ -133,14 +132,12 @@ const QuoteCard: React.FC = () => {
     <Paper
       elevation={0}
       sx={{
-        // ✅ Theme-aware: dark grey in dark mode, light grey surface in light mode
         bgcolor: isDark ? "#1A1A1A" : "grey.100",
         borderRadius: 3,
         p: 2.5,
         position: "relative",
         overflow: "hidden",
         border: "1px solid",
-        // ✅ Theme-aware border
         borderColor: isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.08)",
       }}
     >
@@ -196,7 +193,6 @@ const QuoteCard: React.FC = () => {
             onClick={() => dispatch(fetchQuoteRequest())}
             disabled={loading}
             sx={{
-              // ✅ Theme-aware icon color
               color: isDark ? "rgba(255,255,255,0.3)" : "text.secondary",
               "&:hover": { color: "#C26E3E", bgcolor: "rgba(194,110,62,0.08)" },
             }}
@@ -214,7 +210,6 @@ const QuoteCard: React.FC = () => {
               variant="text"
               width={`${w}%`}
               sx={{
-                // ✅ Theme-aware skeleton
                 bgcolor: isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.08)",
                 borderRadius: 1,
                 mb: 0.5,
@@ -229,7 +224,6 @@ const QuoteCard: React.FC = () => {
             fontStyle: "italic",
             fontSize: { xs: "1rem", md: "1.1rem" },
             lineHeight: 1.7,
-            // ✅ Theme-aware text: dark in light mode, light in dark mode
             color: isDark ? "rgba(255,255,255,0.88)" : "text.primary",
             mb: 2.5,
             minHeight: 80,
@@ -244,7 +238,6 @@ const QuoteCard: React.FC = () => {
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          // ✅ Theme-aware divider
           borderTop: "1px solid",
           borderColor: isDark ? "rgba(255,255,255,0.08)" : "divider",
           pt: 1.5,
@@ -287,7 +280,6 @@ const QuoteCard: React.FC = () => {
                 sx={{
                   fontSize: "0.82rem",
                   fontWeight: 600,
-                  // ✅ Theme-aware author name
                   color: isDark ? "rgba(255,255,255,0.85)" : "text.primary",
                   lineHeight: 1.2,
                 }}
@@ -297,7 +289,6 @@ const QuoteCard: React.FC = () => {
               <Typography
                 sx={{
                   fontSize: "0.7rem",
-                  // ✅ Theme-aware secondary text
                   color: isDark ? "rgba(255,255,255,0.35)" : "text.disabled",
                 }}
               >
@@ -324,8 +315,6 @@ const QuoteCard: React.FC = () => {
     </Paper>
   );
 };
-
-// ─── Hero ─────────────────────────────────────────────────────────────────────
 const Hero: React.FC<{ totalCount: number }> = ({ totalCount }) => {
   const theme = useTheme();
   const isDark = theme.palette.mode === "dark";
@@ -333,7 +322,6 @@ const Hero: React.FC<{ totalCount: number }> = ({ totalCount }) => {
   return (
     <Box
       sx={{
-        // ✅ Theme-aware hero background: white/light in light mode, #111 in dark mode
         bgcolor: isDark ? "#111111" : "background.paper",
         borderBottom: "1px solid",
         borderColor: isDark ? "rgba(255,255,255,0.06)" : "divider",
@@ -341,7 +329,6 @@ const Hero: React.FC<{ totalCount: number }> = ({ totalCount }) => {
         overflow: "hidden",
       }}
     >
-      {/* Subtle light-mode background texture */}
       {!isDark && (
         <Box
           sx={{
@@ -397,7 +384,6 @@ const Hero: React.FC<{ totalCount: number }> = ({ totalCount }) => {
                   fontSize: "0.7rem",
                   fontWeight: 500,
                   letterSpacing: "0.1em",
-                  // ✅ Theme-aware tag text
                   color: isDark ? "rgba(255,255,255,0.55)" : "text.secondary",
                 }}
               >
@@ -412,7 +398,6 @@ const Hero: React.FC<{ totalCount: number }> = ({ totalCount }) => {
                 fontWeight: 700,
                 lineHeight: 1.1,
                 letterSpacing: "-0.03em",
-                // ✅ Theme-aware heading: black in light mode, white in dark
                 color: isDark ? "white" : "text.primary",
                 mb: 1.5,
               }}
@@ -434,7 +419,6 @@ const Hero: React.FC<{ totalCount: number }> = ({ totalCount }) => {
             <Typography
               sx={{
                 fontSize: "0.95rem",
-                // ✅ Theme-aware body text
                 color: isDark ? "rgba(255,255,255,0.5)" : "text.secondary",
                 lineHeight: 1.8,
                 maxWidth: 400,
@@ -457,7 +441,6 @@ const Hero: React.FC<{ totalCount: number }> = ({ totalCount }) => {
                     sx={{
                       width: "1px",
                       height: 36,
-                      // ✅ Theme-aware divider
                       bgcolor: isDark
                         ? "rgba(255,255,255,0.1)"
                         : "rgba(0,0,0,0.12)",
@@ -470,7 +453,6 @@ const Hero: React.FC<{ totalCount: number }> = ({ totalCount }) => {
                         fontFamily: `'Playfair Display',serif`,
                         fontSize: "1.6rem",
                         fontWeight: 700,
-                        // ✅ Theme-aware stat number
                         color: isDark ? "white" : "text.primary",
                         lineHeight: 1,
                       }}
@@ -483,7 +465,6 @@ const Hero: React.FC<{ totalCount: number }> = ({ totalCount }) => {
                         fontWeight: 600,
                         letterSpacing: "0.12em",
                         textTransform: "uppercase",
-                        // ✅ Theme-aware stat label
                         color: isDark
                           ? "rgba(255,255,255,0.3)"
                           : "text.disabled",
@@ -516,7 +497,6 @@ const Hero: React.FC<{ totalCount: number }> = ({ totalCount }) => {
   );
 };
 
-// ─── Latest Post ──────────────────────────────────────────────────────────────
 const LatestPostCard: React.FC<{
   post: BlogPost;
   saved: boolean;
@@ -738,7 +718,6 @@ const LatestPostCard: React.FC<{
   );
 };
 
-// ─── Article Card ─────────────────────────────────────────────────────────────
 const ArticleCard: React.FC<{
   post: BlogPost;
   saved: boolean;
@@ -938,7 +917,6 @@ const ArticleCard: React.FC<{
   );
 };
 
-// ─── Creator Section ──────────────────────────────────────────────────────────
 const CreatorSection: React.FC = () => {
   const theme = useTheme();
   const isDark = theme.palette.mode === "dark";
@@ -947,7 +925,6 @@ const CreatorSection: React.FC = () => {
     <Paper
       elevation={0}
       sx={{
-        // ✅ Theme-aware: dark in dark mode, subtle grey in light mode
         bgcolor: isDark ? "#111111" : "grey.50",
         borderRadius: 4,
         p: { xs: 3, md: 5 },
@@ -978,7 +955,6 @@ const CreatorSection: React.FC = () => {
             fontStyle: "italic",
             fontSize: { xs: "1.1rem", md: "1.3rem" },
             lineHeight: 1.65,
-            // ✅ Theme-aware quote text
             color: isDark ? "rgba(255,255,255,0.85)" : "text.primary",
             mb: 2.5,
           }}
@@ -1005,7 +981,6 @@ const CreatorSection: React.FC = () => {
               sx={{
                 fontSize: "0.95rem",
                 fontWeight: 600,
-                // ✅ Theme-aware name
                 color: isDark ? "white" : "text.primary",
                 mb: 0.25,
               }}
@@ -1015,7 +990,6 @@ const CreatorSection: React.FC = () => {
             <Typography
               sx={{
                 fontSize: "0.78rem",
-                // ✅ Theme-aware subtitle
                 color: isDark ? "rgba(255,255,255,0.4)" : "text.secondary",
               }}
             >
@@ -1057,7 +1031,6 @@ const CreatorSection: React.FC = () => {
                   width: 36,
                   height: 36,
                   borderRadius: "8px",
-                  // ✅ Theme-aware skill icon bg
                   bgcolor: isDark
                     ? "rgba(255,255,255,0.05)"
                     : "rgba(0,0,0,0.04)",
@@ -1086,7 +1059,6 @@ const CreatorSection: React.FC = () => {
                   sx={{
                     fontSize: "0.85rem",
                     fontWeight: 500,
-                    // ✅ Theme-aware skill label
                     color: isDark ? "rgba(255,255,255,0.75)" : "text.primary",
                   }}
                 >
@@ -1095,7 +1067,6 @@ const CreatorSection: React.FC = () => {
                 <Typography
                   sx={{
                     fontSize: "0.72rem",
-                    // ✅ Theme-aware skill sub
                     color: isDark ? "rgba(255,255,255,0.3)" : "text.secondary",
                   }}
                 >
@@ -1153,7 +1124,6 @@ const CreatorSection: React.FC = () => {
   );
 };
 
-// ─── Empty State ──────────────────────────────────────────────────────────────
 const EmptyState: React.FC<{ hasPosts: boolean }> = ({ hasPosts }) => (
   <Box sx={{ textAlign: "center", py: 10 }}>
     <Box
@@ -1182,7 +1152,6 @@ const EmptyState: React.FC<{ hasPosts: boolean }> = ({ hasPosts }) => (
   </Box>
 );
 
-// ─── Main ─────────────────────────────────────────────────────────────────────
 const BuildBlogs = ({ searchQuery = "" }: { searchQuery?: string }) => {
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
