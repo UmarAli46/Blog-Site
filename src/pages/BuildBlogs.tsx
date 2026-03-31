@@ -286,18 +286,18 @@ const QuoteCard: React.FC = () => {
               >
                 {quote?.author}
               </Typography>
-              <Typography
+              {/* <Typography
                 sx={{
                   fontSize: "0.7rem",
                   color: isDark ? "rgba(255,255,255,0.35)" : "text.disabled",
                 }}
               >
                 via Quotable
-              </Typography>
+              </Typography> */}
             </Box>
           </Box>
         )}
-        <Chip
+        {/* <Chip
           label="Inspire"
           size="small"
           sx={{
@@ -310,7 +310,7 @@ const QuoteCard: React.FC = () => {
             height: 22,
             borderRadius: "4px",
           }}
-        />
+        /> */}
       </Box>
     </Paper>
   );
