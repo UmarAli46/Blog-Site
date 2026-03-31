@@ -1,6 +1,5 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { useState } from "react";
 import { useTheme } from "@mui/material/styles";
 import {
   Box,
@@ -14,10 +13,11 @@ import {
   CircularProgress,
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import AccessTimeIcon from "@mui/icons-material/AccessTime";
-import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
+import AccessTimeOutlinedIcon from "@mui/icons-material/AccessTimeOutlined";
+import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
 import { initializeApp, getApps } from "firebase/app";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
+import { TOKENS } from "./theme"; // adjust path as needed
 
 const firebaseConfig = {};
 const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
@@ -30,16 +30,19 @@ function formatDate(ts: number) {
     day: "numeric",
   });
 }
+
 function estimateReadTime(html: string) {
   const div = document.createElement("div");
   div.innerHTML = html;
   const words = (div.textContent || "").trim().split(/\s+/).length;
   return `${Math.max(1, Math.round(words / 200))} min read`;
 }
+
 function extractFirstImage(html: string): string | null {
   const match = html.match(/<img[^>]+src=["']([^"']+)["']/i);
   return match ? match[1] : null;
 }
+
 function titleInitials(title: string) {
   return title
     .split(" ")
@@ -63,6 +66,9 @@ export default function BlogDetail() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  const theme = useTheme();
+  const isDark = theme.palette.mode === "dark";
+
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
     const fetch = async () => {
@@ -85,17 +91,14 @@ export default function BlogDetail() {
   const image = post ? extractFirstImage(post.content) : null;
   const readTime = post ? estimateReadTime(post.content) : "";
 
-  const displayContent = post?.content ?? "";
-
-  const theme = useTheme();
-  const isDark = theme.palette.mode === "dark";
-
   return (
     <Box sx={{ bgcolor: "background.default", minHeight: "100vh" }}>
+      {/* Sticky header */}
       <Box
         sx={{
-          borderBottom: "1px solid #e5e7eb",
-          bgcolor: "#fff",
+          borderBottom: "1px solid",
+          borderColor: "divider",
+          bgcolor: "background.paper",
           position: "sticky",
           top: 0,
           zIndex: 100,
@@ -106,51 +109,58 @@ export default function BlogDetail() {
             direction="row"
             alignItems="center"
             justifyContent="space-between"
-            py={2}
+            py={1.75}
           >
             <Button
-              startIcon={<ArrowBackIcon />}
+              startIcon={<ArrowBackIcon sx={{ fontSize: "14px !important" }} />}
               onClick={() => navigate("/drawer")}
               sx={{
-                fontFamily: "'Helvetica Neue', sans-serif",
-                fontSize: "0.8rem",
+                fontFamily: "'DM Sans', sans-serif",
+                fontSize: "0.78rem",
                 fontWeight: 600,
-                color: "#6e727a",
+                color: "text.secondary",
                 textTransform: "uppercase",
-                letterSpacing: "0.06em",
-                "&:hover": { color: "#1a6fd4", bgcolor: "transparent" },
+                letterSpacing: "0.07em",
+                px: 0,
+                "&:hover": {
+                  color: TOKENS.copper,
+                  bgcolor: "transparent",
+                },
               }}
             >
               Back
             </Button>
+
+            {/* Wordmark */}
             <Stack direction="row" alignItems="baseline" spacing={0.5}>
               <Typography
                 sx={{
-                  fontFamily: "'Georgia', serif",
+                  fontFamily: "'Playfair Display', serif",
                   fontWeight: 700,
-                  fontSize: "1.2rem",
-                  color: "#1a1a2e",
+                  fontSize: "1.15rem",
+                  color: "text.primary",
                 }}
               >
-                The
+                Build
               </Typography>
               <Typography
                 sx={{
-                  fontFamily: "'Georgia', serif",
+                  fontFamily: "'Playfair Display', serif",
                   fontWeight: 700,
-                  fontSize: "1.2rem",
-                  color: "#1a6fd4",
+                  fontSize: "1.15rem",
+                  color: TOKENS.copper,
                 }}
               >
                 Blogs
               </Typography>
             </Stack>
 
-            <Box sx={{ width: 80 }} />
+            <Box sx={{ width: 64 }} />
           </Stack>
         </Container>
       </Box>
 
+      {/* Loading */}
       {loading && (
         <Box
           display="flex"
@@ -158,14 +168,33 @@ export default function BlogDetail() {
           alignItems="center"
           minHeight="60vh"
         >
-          <CircularProgress sx={{ color: "#e94560" }} />
+          <CircularProgress
+            size={36}
+            thickness={3}
+            sx={{ color: TOKENS.copper }}
+          />
         </Box>
       )}
 
+      {/* Error */}
       {error && (
-        <Box textAlign="center" py={10}>
-          <Typography color="error">{error}</Typography>
-          <Button onClick={() => navigate(-1)} sx={{ mt: 2 }}>
+        <Box textAlign="center" py={12}>
+          <Typography color="error" sx={{ mb: 2 }}>
+            {error}
+          </Typography>
+          <Button
+            onClick={() => navigate(-1)}
+            variant="outlined"
+            sx={{
+              borderColor: TOKENS.copper,
+              color: TOKENS.copper,
+              "&:hover": {
+                borderColor: TOKENS.copperDark,
+                color: TOKENS.copperDark,
+                bgcolor: "transparent",
+              },
+            }}
+          >
             Go Back
           </Button>
         </Box>
@@ -173,99 +202,115 @@ export default function BlogDetail() {
 
       {post && (
         <>
+          {/* Hero image / gradient banner */}
           <Box
             sx={{
               width: "100%",
-              height: { xs: 240, sm: 360, md: 480 },
+              height: { xs: 220, sm: 340, md: 460 },
               background: image
                 ? undefined
-                : "linear-gradient(135deg, #1259e6 0%, #5dd4ff 60%, #257aeaaf 100%)",
+                : `linear-gradient(135deg, ${TOKENS.copper} 0%, ${TOKENS.copperLight} 55%, ${TOKENS.copperMid} 100%)`,
               backgroundImage: image ? `url("${image}")` : undefined,
               backgroundSize: "cover",
               backgroundPosition: "center",
-              backgroundRepeat: "no-repeat",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
               position: "relative",
+              overflow: "hidden",
             }}
           >
             <Box
               sx={{
                 position: "absolute",
                 inset: 0,
-                bgcolor: "rgba(0,0,0,0.38)",
+                bgcolor: "rgba(0,0,0,0.32)",
               }}
             />
             {!image && (
               <Typography
                 sx={{
-                  color: alpha("#fff", 0.1),
-                  fontSize: { xs: "6rem", md: "10rem" },
+                  color: alpha("#fff", 0.12),
+                  fontSize: { xs: "5rem", md: "9rem" },
                   fontWeight: 700,
+                  fontFamily: "'Playfair Display', serif",
                   position: "relative",
                   zIndex: 1,
-                  fontFamily: "'Georgia', serif",
+                  userSelect: "none",
                 }}
               >
                 {titleInitials(post.title)}
               </Typography>
             )}
           </Box>
+
+          {/* Content */}
           <Container maxWidth="md" sx={{ py: { xs: 5, md: 8 } }}>
+            {/* Meta row */}
             <Stack
               direction="row"
-              spacing={1.5}
+              spacing={2}
               alignItems="center"
               mb={3}
               flexWrap="wrap"
             >
               <Chip
-                label="ARTICLE"
+                label="Article"
                 size="small"
                 sx={{
-                  bgcolor: "#1a6fd4",
+                  bgcolor: TOKENS.copper,
                   color: "#fff",
-                  fontFamily: "'Helvetica Neue', sans-serif",
+                  fontFamily: "'DM Sans', sans-serif",
                   fontWeight: 700,
                   fontSize: "0.65rem",
-                  letterSpacing: "0.1em",
+                  letterSpacing: "0.08em",
+                  textTransform: "uppercase",
+                  height: 22,
+                  borderRadius: "4px",
                 }}
               />
               <Stack direction="row" spacing={0.5} alignItems="center">
-                <CalendarTodayIcon
-                  sx={{ fontSize: 13, color: "text.secondary" }}
+                <CalendarTodayOutlinedIcon
+                  sx={{ fontSize: 12, color: "text.secondary" }}
                 />
                 <Typography
                   variant="caption"
                   color="text.secondary"
-                  sx={{ fontFamily: "'Helvetica Neue', sans-serif" }}
+                  sx={{
+                    fontFamily: "'DM Sans', sans-serif",
+                    fontSize: "0.75rem",
+                  }}
                 >
                   {formatDate(post.createdAt)}
                 </Typography>
               </Stack>
               <Stack direction="row" spacing={0.5} alignItems="center">
-                <AccessTimeIcon
-                  sx={{ fontSize: 13, color: "#text.secondary" }}
+                <AccessTimeOutlinedIcon
+                  sx={{ fontSize: 12, color: "text.secondary" }}
                 />
                 <Typography
                   variant="caption"
                   color="text.secondary"
-                  sx={{ fontFamily: "'Helvetica Neue', sans-serif" }}
+                  sx={{
+                    fontFamily: "'DM Sans', sans-serif",
+                    fontSize: "0.75rem",
+                  }}
                 >
                   {readTime}
                 </Typography>
               </Stack>
             </Stack>
 
+            {/* Title */}
             <Typography
               sx={{
-                fontFamily: "'Georgia', serif",
+                fontFamily: "'Playfair Display', serif",
                 fontWeight: 700,
-                fontSize: { xs: "1.9rem", sm: "2.5rem", md: "3rem" },
-                lineHeight: 1.25,
+                fontSize: { xs: "1.85rem", sm: "2.4rem", md: "2.9rem" },
+                lineHeight: 1.2,
                 mb: 4,
                 letterSpacing: "-0.02em",
+                color: "text.primary",
               }}
             >
               {post.title}
@@ -273,39 +318,45 @@ export default function BlogDetail() {
 
             <Divider sx={{ mb: 5 }} />
 
+            {/* Body */}
             <Box
-              dangerouslySetInnerHTML={{ __html: displayContent }}
+              dangerouslySetInnerHTML={{ __html: post.content }}
               sx={{
-                fontSize: { xs: "1rem", md: "1.125rem" },
+                fontSize: { xs: "1rem", md: "1.1rem" },
                 lineHeight: 1.9,
                 color: "text.primary",
-                fontFamily: "'Georgia', serif",
+                fontFamily: "'DM Sans', sans-serif",
                 "& h1, & h2": {
-                  fontFamily: "'Georgia', serif",
+                  fontFamily: "'Playfair Display', serif",
                   fontWeight: 700,
                   mt: 5,
                   mb: 2,
                   lineHeight: 1.3,
+                  color: "text.primary",
                 },
                 "& h3, & h4": {
-                  fontFamily: "'Georgia', serif",
+                  fontFamily: "'Playfair Display', serif",
                   fontWeight: 600,
                   mt: 4,
                   mb: 1.5,
+                  color: "text.primary",
                 },
                 "& p": { mb: 2.5 },
                 "& a": {
-                  color: "#1a6fd4",
+                  color: TOKENS.copper,
                   textDecoration: "underline",
                   textUnderlineOffset: "3px",
+                  "&:hover": { color: TOKENS.copperDark },
                 },
                 "& blockquote": {
-                  borderLeft: "4px solid #1a6fd4",
+                  borderLeft: `4px solid ${TOKENS.copper}`,
                   ml: 0,
                   pl: 3,
                   py: 0.5,
                   my: 4,
-                  bgcolor: alpha("#1a6fd4", 0.04),
+                  bgcolor: isDark
+                    ? alpha(TOKENS.copper, 0.07)
+                    : TOKENS.copperFaint,
                   borderRadius: "0 8px 8px 0",
                   "& p": { mb: 0, fontStyle: "italic" },
                 },
@@ -321,14 +372,14 @@ export default function BlogDetail() {
                 "& code": {
                   fontFamily: "'Courier New', monospace",
                   fontSize: "0.875em",
-                  bgcolor: isDark ? "#2a2a2a" : "#f3f4f6",
-                  color: isDark ? "#90caf9" : "#1a6fd4",
+                  bgcolor: isDark ? TOKENS.darkDeep : TOKENS.copperFaint,
+                  color: isDark ? TOKENS.copperMid : TOKENS.copperDark,
                   px: 0.75,
                   py: 0.25,
                   borderRadius: 1,
                 },
                 "& pre": {
-                  bgcolor: "#1a1a2e",
+                  bgcolor: isDark ? TOKENS.darkDeep : TOKENS.inkDark,
                   color: "#e5e7eb",
                   p: 3,
                   borderRadius: 2,
@@ -337,10 +388,7 @@ export default function BlogDetail() {
                   "& code": { bgcolor: "transparent", color: "inherit", p: 0 },
                 },
                 "& strong": { fontWeight: 700 },
-                "& figure.image": {
-                  margin: "2rem 0",
-                  textAlign: "center",
-                },
+                "& figure.image": { margin: "2rem 0", textAlign: "center" },
                 "& figure.image img": {
                   width: "100%",
                   borderRadius: "8px",
@@ -353,20 +401,24 @@ export default function BlogDetail() {
                 },
               }}
             />
+
             <Divider sx={{ mt: 8, mb: 4 }} />
+
             <Button
               startIcon={<ArrowBackIcon />}
               onClick={() => navigate(-1)}
               variant="outlined"
               sx={{
-                borderColor: "text.primary",
-                color: "text.primary",
-                fontFamily: "'Helvetica Neue', sans-serif",
-                fontSize: "0.75rem",
+                borderColor: "divider",
+                color: "text.secondary",
+                fontFamily: "'DM Sans', sans-serif",
+                fontSize: "0.78rem",
                 textTransform: "uppercase",
+                letterSpacing: "0.06em",
+                fontWeight: 600,
                 "&:hover": {
-                  borderColor: "#1a6fd4",
-                  color: "#1a6fd4",
+                  borderColor: TOKENS.copper,
+                  color: TOKENS.copper,
                   bgcolor: "transparent",
                 },
               }}

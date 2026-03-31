@@ -47,15 +47,7 @@ function App() {
         <Suspense fallback={<PageLoader />}>
           <Routes>
             <Route path="/" element={<Authpage />} />
-            <Route
-              path="/drawer"
-              element={
-                <DrawerSlider
-                  check={darkMode}
-                  change={() => setDarkMode(!darkMode)}
-                />
-              }
-            />
+            <Route path="/drawer" element={<DrawerSlider />} />
             <Route
               path="/heropage"
               element={<Heropage onSave={handleSave} />}

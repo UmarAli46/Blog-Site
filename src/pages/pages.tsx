@@ -38,10 +38,7 @@ import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
 import { useTheme } from "@mui/material/styles";
 
 const BlogCardSkeleton = () => (
-  <Card
-    elevation={0}
-    sx={{ border: "1px solid", borderColor: "divider", borderRadius: 3 }}
-  >
+  <Card elevation={0} sx={{ borderRadius: 3 }}>
     <CardContent sx={{ p: 3 }}>
       <Skeleton
         variant="rounded"
@@ -69,17 +66,15 @@ const Pages = () => {
     content?: string;
   }>({});
   const [deleteId, setDeleteId] = useState<string | null>(null);
+
   const theme = useTheme();
   const isDark = theme.palette.mode === "dark";
 
   useEffect(() => {
     dispatch(fetchBlogsRequest());
   }, [dispatch]);
-
   useEffect(() => {
-    if (successMessage && editBlog) {
-      setEditBlog(null);
-    }
+    if (successMessage && editBlog) setEditBlog(null);
   }, [successMessage]);
 
   const handleEditOpen = (blog: Blog) => {
@@ -92,8 +87,8 @@ const Pages = () => {
   const validateEdit = () => {
     const e: { title?: string; content?: string } = {};
     if (!editTitle.trim()) e.title = "Title is required";
-    const plain = editContent.replace(/<[^>]+>/g, "").trim();
-    if (!plain) e.content = "Content cannot be empty";
+    if (!editContent.replace(/<[^>]+>/g, "").trim())
+      e.content = "Content cannot be empty";
     setEditErrors(e);
     return Object.keys(e).length === 0;
   };
@@ -107,13 +102,6 @@ const Pages = () => {
         content: editContent,
       }),
     );
-  };
-
-  const handleDeleteConfirm = () => {
-    if (deleteId) {
-      dispatch(deleteBlogRequest(deleteId));
-      setDeleteId(null);
-    }
   };
 
   const formatDate = (ts: number) =>
@@ -130,8 +118,79 @@ const Pages = () => {
       .split(/\s+/)
       .filter(Boolean).length;
 
+  // Shared CKEditor style block
+  const ckStyles = {
+    border: "1px solid",
+    borderColor: "divider",
+    borderRadius: 2,
+    overflow: "hidden",
+    mb: 3,
+    transition: "border-color 0.2s",
+    "&:focus-within": { borderColor: "primary.main" },
+    "& .ck-editor__editable": {
+      minHeight: "300px !important",
+      backgroundColor: `${isDark ? "#1e1b18" : "#fff"} !important`,
+      color: `${isDark ? "#f0ebe4" : "#1a1a1a"} !important`,
+      fontSize: "1rem",
+      lineHeight: "1.8",
+    },
+    "& .ck-editor__editable_inline": { minHeight: "300px !important" },
+    "& .ck.ck-toolbar": {
+      backgroundColor: `${isDark ? "#2a241f" : "#faf6f2"} !important`,
+      borderColor: `${isDark ? "#3a342e" : "#e0dcd6"} !important`,
+    },
+    "& .ck.ck-button, & .ck.ck-icon": {
+      color: `${isDark ? "#f0ebe4" : "#1a1a1a"} !important`,
+    },
+    "& .ck.ck-dropdown__panel": {
+      backgroundColor: `${isDark ? "#2a241f" : "#fff"} !important`,
+      borderColor: `${isDark ? "#3a342e" : "#e0dcd6"} !important`,
+    },
+    "& .ck.ck-list__item .ck-button": {
+      color: `${isDark ? "#f0ebe4" : "#1a1a1a"} !important`,
+    },
+  };
+
+  const ckConfig = {
+    toolbar: [
+      "heading",
+      "|",
+      "bold",
+      "italic",
+      "underline",
+      "|",
+      "link",
+      "blockQuote",
+      "imageUpload",
+      "|",
+      "bulletedList",
+      "numberedList",
+      "|",
+      "undo",
+      "redo",
+    ],
+  };
+  const ckUploadAdapter = (editor: any) => {
+    editor.plugins.get("FileRepository").createUploadAdapter = (
+      loader: any,
+    ) => ({
+      upload: () =>
+        loader.file.then(
+          (file: File) =>
+            new Promise<{ default: string }>((res, rej) => {
+              const r = new FileReader();
+              r.onload = () => res({ default: r.result as string });
+              r.onerror = rej;
+              r.readAsDataURL(file);
+            }),
+        ),
+      abort: () => {},
+    });
+  };
+
   return (
     <Box sx={{ maxWidth: 860, mx: "auto", px: { xs: 2, md: 4 }, py: 5 }}>
+      {/* Header */}
       <Stack
         direction="row"
         justifyContent="space-between"
@@ -141,12 +200,7 @@ const Pages = () => {
         <Box>
           <Typography
             variant="overline"
-            sx={{
-              letterSpacing: 3,
-              color: "#1a6fd4",
-              fontFamily: '"DM Sans", sans-serif',
-              fontWeight: 700,
-            }}
+            sx={{ letterSpacing: 3, color: "primary.main", fontWeight: 700 }}
           >
             Manage
           </Typography>
@@ -162,12 +216,12 @@ const Pages = () => {
           label={`${blogs.length} post${blogs.length !== 1 ? "s" : ""}`}
           size="small"
           sx={{
-            bgcolor: "#e8f0fd",
-            color: "#1a6fd4",
+            bgcolor: "primary.light",
+            color: "primary.dark",
             fontWeight: 700,
-            fontFamily: '"DM Sans", sans-serif',
             border: "1px solid",
-            borderColor: "#b5d4f4",
+            borderColor: "primary.main",
+            opacity: 0.85,
           }}
         />
       </Stack>
@@ -190,19 +244,20 @@ const Pages = () => {
             sx={{
               textAlign: "center",
               py: 12,
-              border: "1px dashed #b5d4f4",
+              border: "1px dashed",
+              borderColor: "primary.light",
               borderRadius: 3,
               bgcolor: "background.default",
             }}
           >
             <ArticleOutlinedIcon
-              sx={{ fontSize: 56, mb: 2, color: "#1a6fd4", opacity: 0.4 }}
+              sx={{ fontSize: 56, mb: 2, color: "primary.main", opacity: 0.4 }}
             />
             <Typography variant="h6" color="text.secondary" gutterBottom>
               No blogs published yet
             </Typography>
             <Typography variant="body2" color="text.disabled">
-              Head to the Editor tab and publish your first post.
+              Head to Create Blogs and publish your first post.
             </Typography>
           </Box>
         ) : (
@@ -211,16 +266,14 @@ const Pages = () => {
               key={blog.id}
               elevation={0}
               sx={{
-                border: "1px solid",
-                borderColor: "#dde3ee",
                 borderRadius: 3,
-                bgcolor: "background.default",
+                bgcolor: "background.paper",
                 transition:
                   "border-color 0.2s, transform 0.2s, box-shadow 0.2s",
                 "&:hover": {
-                  borderColor: "#1a6fd4",
+                  borderColor: "primary.main",
                   transform: "translateY(-2px)",
-                  boxShadow: "0 6px 24px rgba(26,111,212,0.10)",
+                  boxShadow: "0 6px 24px rgba(194,110,62,0.12)",
                 },
               }}
             >
@@ -231,14 +284,11 @@ const Pages = () => {
                       width: 6,
                       height: 6,
                       borderRadius: "50%",
-                      bgcolor: "#1a6fd4",
+                      bgcolor: "primary.main",
                       flexShrink: 0,
                     }}
                   />
-                  <Typography
-                    variant="caption"
-                    sx={{ fontFamily: '"DM Sans", sans-serif', color: "#888" }}
-                  >
+                  <Typography variant="caption" sx={{ color: "text.disabled" }}>
                     {formatDate(blog.createdAt)} · {wordCount(blog.content)}{" "}
                     words
                   </Typography>
@@ -269,16 +319,13 @@ const Pages = () => {
                   {blog.content.replace(/<[^>]+>/g, "")}
                 </Typography>
               </CardContent>
-
-              <Divider sx={{ borderColor: "divider" }} />
-
+              <Divider />
               <CardActions
                 sx={{
                   px: 3,
                   py: 1.5,
                   justifyContent: "flex-end",
                   gap: 1,
-                  bgcolor: "background.default",
                   borderBottomLeftRadius: 12,
                   borderBottomRightRadius: 12,
                 }}
@@ -288,10 +335,10 @@ const Pages = () => {
                     size="small"
                     onClick={() => handleEditOpen(blog)}
                     sx={{
-                      color: "#888",
+                      color: "text.disabled",
                       "&:hover": {
-                        color: "#1a6fd4",
-                        bgcolor: "rgba(26,111,212,0.08)",
+                        color: "primary.main",
+                        bgcolor: "action.hover",
                       },
                     }}
                   >
@@ -304,10 +351,10 @@ const Pages = () => {
                     onClick={() => setDeleteId(blog.id)}
                     disabled={deleting === blog.id}
                     sx={{
-                      color: "text.secondary",
+                      color: "text.disabled",
                       "&:hover": {
                         color: "error.main",
-                        bgcolor: "rgba(255,107,107,0.1)",
+                        bgcolor: "action.hover",
                       },
                     }}
                   >
@@ -325,14 +372,13 @@ const Pages = () => {
                   sx={{
                     ml: 1,
                     borderRadius: 2,
-                    fontFamily: '"DM Sans", sans-serif',
                     fontSize: "0.8rem",
-                    borderColor: "#1a6fd4",
-                    color: "#1a6fd4",
+                    borderColor: "primary.main",
+                    color: "primary.main",
                     "&:hover": {
-                      bgcolor: "#e8f0fd",
-                      borderColor: "#1558b0",
-                      color: "#1558b0",
+                      bgcolor: "action.hover",
+                      borderColor: "primary.dark",
+                      color: "primary.dark",
                     },
                   }}
                 >
@@ -349,24 +395,17 @@ const Pages = () => {
         onClose={() => !saving && setEditBlog(null)}
         fullWidth
         maxWidth="md"
-        PaperProps={{
-          sx: {
-            borderRadius: 4,
-            border: "1px solid #dde3ee",
-            bgcolor: "background.paper",
-            overflow: "hidden",
-          },
-        }}
+        PaperProps={{ sx: { borderRadius: 4, overflow: "hidden" } }}
       >
         <Box
           sx={{
             height: 4,
-            background: "linear-gradient(90deg, #0d1b3e, #1a6fd4)",
+            background: "linear-gradient(90deg, #C26E3E, #E58D5B)",
           }}
         />
         <DialogTitle
           sx={{
-            fontFamily: '"Crimson Pro", serif',
+            fontFamily: `'Playfair Display', serif`,
             fontSize: "1.6rem",
             fontWeight: 700,
             pb: 1,
@@ -375,7 +414,6 @@ const Pages = () => {
         >
           Edit Blog Post
         </DialogTitle>
-
         <DialogContent sx={{ pt: 1 }}>
           <Stack spacing={3} sx={{ mt: 1 }}>
             <TextField
@@ -390,14 +428,7 @@ const Pages = () => {
               error={!!editErrors.title}
               helperText={editErrors.title}
               inputProps={{ style: { fontSize: "1.15rem", fontWeight: 600 } }}
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  "&.Mui-focused fieldset": { borderColor: "#1a6fd4" },
-                },
-                "& label.Mui-focused": { color: "#1a6fd4" },
-              }}
             />
-
             <Box>
               <Typography
                 variant="overline"
@@ -405,116 +436,19 @@ const Pages = () => {
                   mb: 1,
                   display: "block",
                   letterSpacing: 2,
-                  color: "#1a6fd4",
+                  color: "primary.main",
                   fontWeight: 700,
-                  fontFamily: '"DM Sans", sans-serif',
                 }}
               >
                 Content
               </Typography>
-
-              <Box
-                sx={{
-                  border: "1px solid",
-                  borderColor: error ? "error.main" : "#dde3ee",
-                  borderRadius: 2,
-                  overflow: "hidden",
-                  mb: 3,
-                  transition: "border-color 0.2s",
-                  "&:focus-within": { borderColor: "#1a6fd4" },
-
-                  "& .ck-editor__editable": {
-                    minHeight: "300px !important",
-                    backgroundColor: isDark
-                      ? "#1e1e1e !important"
-                      : "#fff !important",
-                    color: isDark ? "#f5f5f5 !important" : "#0a0a0a !important",
-                    fontSize: "1rem",
-                    lineHeight: "1.8",
-                  },
-                  "& .ck-editor__editable_inline": {
-                    minHeight: "300px !important",
-                  },
-                  "& .ck.ck-toolbar": {
-                    backgroundColor: isDark
-                      ? "#2a2a2a !important"
-                      : "#f5f5f5 !important",
-                    borderColor: isDark ? "#444 !important" : "#ccc !important",
-                    borderBottom: isDark
-                      ? "1px solid #444 !important"
-                      : "1px solid #dde3ee !important",
-                  },
-                  "& .ck.ck-button": {
-                    color: isDark ? "#f5f5f5 !important" : "#0a0a0a !important",
-                  },
-                  "& .ck.ck-icon": {
-                    color: isDark ? "#f5f5f5 !important" : "#0a0a0a !important",
-                  },
-                  "& .ck.ck-dropdown__panel": {
-                    backgroundColor: isDark
-                      ? "#2a2a2a !important"
-                      : "#fff !important",
-                    borderColor: isDark ? "#444 !important" : "#ccc !important",
-                  },
-                  "& .ck.ck-list__item .ck-button": {
-                    color: isDark ? "#f5f5f5 !important" : "#0a0a0a !important",
-                  },
-                  "& .ck.ck-heading_heading1": {
-                    fontSize: "1.8rem !important",
-                  },
-                  "& .ck.ck-heading_heading2": {
-                    fontSize: "1.5rem !important",
-                  },
-                  "& .ck.ck-heading_heading3": {
-                    fontSize: "1.2rem !important",
-                  },
-                }}
-              >
+              <Box sx={ckStyles}>
                 <CKEditor
                   editor={ClassicEditor}
                   data={editContent}
-                  onReady={(editor: any) => {
-                    editor.plugins.get("FileRepository").createUploadAdapter = (
-                      loader: any,
-                    ) => {
-                      return {
-                        upload() {
-                          return loader.file.then((file: File) => {
-                            return new Promise<{ default: string }>(
-                              (resolve, reject) => {
-                                const reader = new FileReader();
-                                reader.onload = () =>
-                                  resolve({ default: reader.result as string });
-                                reader.onerror = (err) => reject(err);
-                                reader.readAsDataURL(file);
-                              },
-                            );
-                          });
-                        },
-                        abort() {},
-                      };
-                    };
-                  }}
-                  config={{
-                    toolbar: [
-                      "heading",
-                      "|",
-                      "bold",
-                      "italic",
-                      "underline",
-                      "|",
-                      "link",
-                      "blockQuote",
-                      "imageUpload",
-                      "|",
-                      "bulletedList",
-                      "numberedList",
-                      "|",
-                      "undo",
-                      "redo",
-                    ],
-                  }}
-                  onChange={(_event, editor) => {
+                  onReady={ckUploadAdapter}
+                  config={ckConfig}
+                  onChange={(_e, editor) => {
                     setEditContent(editor.getData());
                     if (editErrors.content)
                       setEditErrors((p) => ({ ...p, content: undefined }));
@@ -525,7 +459,7 @@ const Pages = () => {
                 <Typography
                   variant="caption"
                   color="error"
-                  sx={{ ml: 1.5, mt: 0.5, display: "block" }}
+                  sx={{ ml: 1.5, display: "block" }}
                 >
                   {editErrors.content}
                 </Typography>
@@ -533,15 +467,13 @@ const Pages = () => {
             </Box>
           </Stack>
         </DialogContent>
-
         <DialogActions sx={{ px: 3, pb: 3, pt: 1, gap: 1 }}>
           <Button
             onClick={() => setEditBlog(null)}
             disabled={saving}
             sx={{
               color: "text.secondary",
-              fontFamily: '"DM Sans", sans-serif',
-              "&:hover": { bgcolor: "background.default" },
+              "&:hover": { bgcolor: "action.hover" },
             }}
           >
             Cancel
@@ -556,9 +488,8 @@ const Pages = () => {
             sx={{
               px: 3,
               borderRadius: 2,
-              fontFamily: '"DM Sans", sans-serif',
-              bgcolor: "#1a6fd4",
-              "&:hover": { bgcolor: "#1558b0" },
+              bgcolor: "primary.main",
+              "&:hover": { bgcolor: "primary.dark" },
             }}
           >
             {saving ? "Saving..." : "Save Changes"}
@@ -569,14 +500,7 @@ const Pages = () => {
       <Dialog
         open={!!deleteId}
         onClose={() => setDeleteId(null)}
-        PaperProps={{
-          sx: {
-            borderRadius: 3,
-            border: "1px solid #dde3ee",
-            bgcolor: "background.paper",
-            overflow: "hidden",
-          },
-        }}
+        PaperProps={{ sx: { borderRadius: 3, overflow: "hidden" } }}
       >
         <Box
           sx={{
@@ -586,7 +510,7 @@ const Pages = () => {
         />
         <DialogTitle
           sx={{
-            fontFamily: '"Crimson Pro", serif',
+            fontFamily: `'Playfair Display', serif`,
             fontSize: "1.4rem",
             fontWeight: 700,
             color: "text.primary",
@@ -595,11 +519,7 @@ const Pages = () => {
           Delete this blog?
         </DialogTitle>
         <DialogContent>
-          <Typography
-            variant="body2"
-            color="text.secondary"
-            sx={{ fontFamily: '"DM Sans", sans-serif' }}
-          >
+          <Typography variant="body2" color="text.secondary">
             This will permanently remove the blog from Firebase. This action
             cannot be undone.
           </Typography>
@@ -609,21 +529,24 @@ const Pages = () => {
             onClick={() => setDeleteId(null)}
             sx={{
               color: "text.secondary",
-              fontFamily: '"DM Sans", sans-serif',
-              "&:hover": { bgcolor: "background.default" },
+              "&:hover": { bgcolor: "action.hover" },
             }}
           >
             Cancel
           </Button>
           <Button
             variant="contained"
-            onClick={handleDeleteConfirm}
+            onClick={() => {
+              if (deleteId) {
+                dispatch(deleteBlogRequest(deleteId));
+                setDeleteId(null);
+              }
+            }}
             sx={{
               bgcolor: "error.main",
               color: "#fff",
               borderRadius: 2,
-              fontFamily: '"DM Sans", sans-serif',
-              "&:hover": { bgcolor: "#e53935" },
+              "&:hover": { bgcolor: "#c62828" },
             }}
           >
             Yes, Delete
@@ -643,8 +566,8 @@ const Pages = () => {
           onClose={() => dispatch(clearMessages())}
           sx={{
             borderRadius: 2,
-            boxShadow: "0 4px 20px rgba(26,111,212,0.15)",
-            border: "1px solid #b5d4f4",
+            border: "1px solid",
+            borderColor: "primary.light",
           }}
         >
           {successMessage}

@@ -3,6 +3,8 @@ import createSagaMiddleware from 'redux-saga';
 import { all } from 'redux-saga/effects';
 import blogReducer from './features/Blogslice';
 import blogSaga from './features/Blogsaga';
+import quoteReducer from './features/Quoteslice';
+import quoteSaga from './features/Quotesaga';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -10,6 +12,7 @@ const sagaMiddleware = createSagaMiddleware();
 export const store = configureStore({
   reducer: {
     blogs: blogReducer,  
+    quote: quoteReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({ thunk: false }) 
@@ -19,7 +22,8 @@ export const store = configureStore({
 
 function* rootSaga() {
   yield all([
-    blogSaga(),           
+    blogSaga(),
+    quoteSaga(),
   ]);
 }
 

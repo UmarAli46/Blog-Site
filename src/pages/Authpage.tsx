@@ -11,10 +11,8 @@ import {
 import {
   Box,
   Button,
-  Checkbox,
   CircularProgress,
   Divider,
-  FormControlLabel,
   IconButton,
   InputAdornment,
   Link,
@@ -26,17 +24,19 @@ import {
   Tabs,
   TextField,
   Typography,
+  alpha,
 } from "@mui/material";
 import {
   Visibility,
   VisibilityOff,
-  FiberManualRecord,
   Create as PenIcon,
   CheckCircleOutline,
+  FiberManualRecord,
 } from "@mui/icons-material";
+import { TOKENS } from "./theme";
 
 const GoogleIcon = () => (
-  <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+  <svg width="17" height="17" viewBox="0 0 18 18" fill="none">
     <path
       d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844a4.14 4.14 0 0 1-1.796 2.716v2.259h2.908C18.622 14.233 17.64 11.925 17.64 9.2z"
       fill="#4285F4"
@@ -50,7 +50,7 @@ const GoogleIcon = () => (
       fill="#FBBC05"
     />
     <path
-      d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.962L3.964 7.294C4.672 5.163 6.656 3.58 9 3.58z"
+      d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.962L3.964 7.294C4.672 5.163 6.656 3.58 9  3.58z"
       fill="#EA4335"
     />
   </svg>
@@ -60,50 +60,52 @@ const BrandPanel: React.FC = () => (
   <Box
     sx={{
       flex: 1,
-      maxWidth: 380,
+      maxWidth: 360,
       display: { xs: "none", md: "flex" },
       flexDirection: "column",
       gap: 3.5,
-      animation: "fadeSlideUp 0.7s ease both",
+      animation: "fadeSlideUp 0.65s ease both",
     }}
   >
-    <Box sx={{ display: "flex", alignItems: "center", gap: 1.25 }}>
+    <Stack direction="row" alignItems="center" spacing={1.25}>
       <Box
         sx={{
-          width: 36,
-          height: 36,
-          bgcolor: "text.primary",
+          width: 34,
+          height: 34,
+          bgcolor: TOKENS.copper,
           borderRadius: "8px",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
         }}
       >
-        <PenIcon sx={{ color: "#f9f5f0", fontSize: 18 }} />
+        <PenIcon sx={{ color: "#fff", fontSize: 16 }} />
       </Box>
       <Typography
         sx={{
           fontFamily: "'Playfair Display', serif",
-          fontSize: 22,
+          fontSize: "1.25rem",
           color: "text.primary",
-          letterSpacing: "0.02em",
+          letterSpacing: "0.01em",
+          fontWeight: 700,
         }}
       >
-        Inkwell
+        BuildBlogs
       </Typography>
-    </Box>
+    </Stack>
 
     <Typography
       component="h1"
       sx={{
         fontFamily: "'Playfair Display', serif",
-        fontSize: { md: 34, lg: 38 },
+        fontSize: { md: 32, lg: 36 },
         lineHeight: 1.2,
         color: "text.primary",
+        letterSpacing: "-0.01em",
       }}
     >
       Where{" "}
-      <Box component="em" sx={{ fontStyle: "italic", color: "primary.main" }}>
+      <Box component="em" sx={{ fontStyle: "italic", color: TOKENS.copper }}>
         ideas
       </Box>
       <br />
@@ -112,14 +114,14 @@ const BrandPanel: React.FC = () => (
 
     <Typography
       sx={{
-        fontSize: 15,
-        lineHeight: 1.7,
+        fontSize: "0.9rem",
+        lineHeight: 1.75,
         color: "text.secondary",
         fontWeight: 300,
       }}
     >
       A space for thoughtful writing, curious readers, and the stories worth
-      telling. Join thousands of writers already publishing on Inkwell.
+      telling. Join thousands of writers already publishing on BuildBlogs.
     </Typography>
 
     <Stack spacing={1.5}>
@@ -129,52 +131,44 @@ const BrandPanel: React.FC = () => (
         "Build your readership with every post",
         "Analytics to understand your impact",
       ].map((f) => (
-        <Box key={f} sx={{ display: "flex", alignItems: "center", gap: 1.25 }}>
+        <Stack key={f} direction="row" alignItems="center" spacing={1.25}>
           <FiberManualRecord
-            sx={{ fontSize: 8, color: "primary.main", flexShrink: 0 }}
+            sx={{ fontSize: 7, color: TOKENS.copper, flexShrink: 0 }}
           />
-          <Typography sx={{ fontSize: 14, color: "text.primary" }}>
+          <Typography sx={{ fontSize: "0.875rem", color: "text.primary" }}>
             {f}
           </Typography>
-        </Box>
+        </Stack>
       ))}
     </Stack>
   </Box>
 );
 
+const fieldSx = { borderRadius: "9px", fontSize: "0.875rem" };
+
 const SignInPanel: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
   const [showPass, setShowPass] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [remember, setRemember] = useState(false);
-  const [openSnackbar, setOpenSnackbar] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackOpen, setSnackOpen] = useState(false);
+  const [snackMsg, setSnackMsg] = useState("");
   const navigate = useNavigate();
+
+  const showError = (msg: string) => {
+    setSnackMsg(msg);
+    setSnackOpen(true);
+  };
 
   const handleSignIn = () => {
     signInWithEmailAndPassword(auth, email, password)
       .then(() => navigate("/drawer"))
-      .catch(() => {
-        setSnackbarMessage("Invalid credentials. Please try again.");
-        setOpenSnackbar(true);
-      });
+      .catch(() => showError("Invalid credentials. Please try again."));
   };
 
   const handleGoogleSignIn = () => {
     signInWithPopup(auth, googleProvider)
       .then(() => navigate("/drawer"))
-      .catch(() => {
-        setSnackbarMessage("Google sign-in failed. Please try again.");
-        setOpenSnackbar(true);
-      });
-  };
-
-  const handleCloseSnackbar = (
-    _event: React.SyntheticEvent | Event,
-    reason?: string,
-  ) => {
-    if (reason === "clickaway") return;
-    setOpenSnackbar(false);
+      .catch(() => showError("Google sign-in failed. Please try again."));
   };
 
   return (
@@ -182,18 +176,19 @@ const SignInPanel: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
       <Typography
         sx={{
           fontFamily: "'Playfair Display', serif",
-          fontSize: 24,
+          fontSize: "1.45rem",
           color: "text.primary",
-          mb: 0.75,
+          mb: 0.5,
+          fontWeight: 700,
         }}
       >
         Welcome back
       </Typography>
       <Typography
         sx={{
-          fontSize: 13.5,
+          fontSize: "0.84rem",
           color: "text.secondary",
-          mb: 3.5,
+          mb: 3,
           fontWeight: 300,
         }}
       >
@@ -206,25 +201,25 @@ const SignInPanel: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
         onClick={handleGoogleSignIn}
         startIcon={<GoogleIcon />}
         sx={{
-          py: 1.25,
+          py: 1.2,
           borderColor: "divider",
           color: "text.primary",
           fontFamily: "'DM Sans', sans-serif",
-          fontSize: 14,
+          fontSize: "0.875rem",
           fontWeight: 500,
           borderRadius: "10px",
           textTransform: "none",
-          "&:hover": { borderColor: "#aaa", bgcolor: "background.default" },
+          "&:hover": { borderColor: TOKENS.copper, bgcolor: "transparent" },
         }}
       >
         Continue with Google
       </Button>
 
-      <Divider sx={{ my: 2.75, fontSize: 12, color: "text.secondary" }}>
+      <Divider sx={{ my: 2.5, fontSize: "0.75rem", color: "text.secondary" }}>
         or sign in with email
       </Divider>
 
-      <Stack spacing={2}>
+      <Stack spacing={1.75}>
         <TextField
           label="Email address"
           type="email"
@@ -234,7 +229,7 @@ const SignInPanel: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
           onChange={(e) => setEmail(e.target.value)}
           fullWidth
           size="small"
-          InputProps={{ sx: { borderRadius: "9px", fontSize: 14 } }}
+          InputProps={{ sx: fieldSx }}
         />
         <TextField
           label="Password"
@@ -246,7 +241,7 @@ const SignInPanel: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
           fullWidth
           size="small"
           InputProps={{
-            sx: { borderRadius: "9px", fontSize: 14 },
+            sx: fieldSx,
             endAdornment: (
               <InputAdornment position="end">
                 <IconButton
@@ -266,58 +261,23 @@ const SignInPanel: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
         />
       </Stack>
 
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          mt: 1.5,
-          mb: 2.75,
-        }}
-      >
-        <FormControlLabel
-          control={
-            <Checkbox
-              size="small"
-              checked={remember}
-              onChange={(e) => setRemember(e.target.checked)}
-              sx={{
-                color: "text.secondary",
-                "&.Mui-checked": { color: "primary.main" },
-              }}
-            />
-          }
-          label={
-            <Typography sx={{ fontSize: 13, color: "text.secondary" }}>
-              Remember me
-            </Typography>
-          }
-          sx={{ mr: 0 }}
-        />
-        <Link
-          href="#"
-          underline="hover"
-          sx={{ fontSize: 13, color: "primary.main", fontWeight: 500 }}
-        >
-          Forgot password?
-        </Link>
-      </Box>
-
       <Button
         fullWidth
         variant="contained"
         onClick={handleSignIn}
         sx={{
-          py: 1.4,
-          bgcolor: "text.primary",
+          mt: 2.5,
+          py: 1.35,
+          bgcolor: TOKENS.copper,
           color: "#fff",
           borderRadius: "10px",
           fontFamily: "'DM Sans', sans-serif",
-          fontSize: 15,
-          fontWeight: 500,
+          fontSize: "0.95rem",
+          fontWeight: 600,
           textTransform: "none",
-          "&:hover": { bgcolor: "#2e2e2e" },
+          "&:hover": { bgcolor: TOKENS.copperDark },
           "&:active": { transform: "scale(0.98)" },
+          transition: "all 0.18s ease",
         }}
       >
         Sign In
@@ -326,7 +286,7 @@ const SignInPanel: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
       <Typography
         sx={{
           mt: 2,
-          fontSize: 12,
+          fontSize: "0.78rem",
           color: "text.secondary",
           textAlign: "center",
         }}
@@ -337,9 +297,9 @@ const SignInPanel: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
           onClick={onSwitch}
           underline="hover"
           sx={{
-            color: "primary.main",
-            fontWeight: 500,
-            fontSize: 12,
+            color: TOKENS.copper,
+            fontWeight: 600,
+            fontSize: "0.78rem",
             verticalAlign: "baseline",
           }}
         >
@@ -348,18 +308,18 @@ const SignInPanel: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
       </Typography>
 
       <Snackbar
-        open={openSnackbar}
+        open={snackOpen}
         autoHideDuration={4000}
-        onClose={handleCloseSnackbar}
+        onClose={(_, r) => r !== "clickaway" && setSnackOpen(false)}
         anchorOrigin={{ vertical: "top", horizontal: "right" }}
       >
         <Alert
-          onClose={handleCloseSnackbar}
+          onClose={() => setSnackOpen(false)}
           severity="error"
           variant="filled"
-          sx={{ width: "100%" }}
+          sx={{ width: "100%", borderRadius: 2 }}
         >
-          {snackbarMessage}
+          {snackMsg}
         </Alert>
       </Snackbar>
     </Box>
@@ -378,6 +338,8 @@ const SignUpPanel: React.FC = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
+  const clear = () => setError("");
+
   const handleSignUp = async () => {
     if (!email || !password || !firstName || !lastName) {
       setError("Please fill in all fields.");
@@ -387,23 +349,15 @@ const SignUpPanel: React.FC = () => {
       setError("Passwords do not match.");
       return;
     }
-
     setLoading(true);
     setError("");
     try {
-      const userCredential = await createUserWithEmailAndPassword(
+      const { user } = await createUserWithEmailAndPassword(
         auth,
         email,
         password,
       );
-      const user = userCredential.user;
-
-      await setDoc(doc(db, "users", user.uid), {
-        firstName,
-        lastName,
-        email,
-      });
-
+      await setDoc(doc(db, "users", user.uid), { firstName, lastName, email });
       setLoading(false);
       setSuccess(true);
       setTimeout(() => navigate("/drawer"), 1800);
@@ -427,21 +381,21 @@ const SignUpPanel: React.FC = () => {
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          minHeight: 340,
+          minHeight: 320,
           gap: 2,
           animation: "fadeSlideUp 0.4s ease both",
         }}
       >
         <Box
           sx={{
-            width: 68,
-            height: 68,
+            width: 64,
+            height: 64,
             borderRadius: "50%",
-            bgcolor: "text.primary",
+            bgcolor: TOKENS.copper,
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            boxShadow: "0 10px 28px rgba(26,26,26,0.25)",
+            boxShadow: `0 8px 24px ${alpha(TOKENS.copper, 0.4)}`,
             animation: "popIn 0.5s cubic-bezier(0.34,1.56,0.64,1) 0.1s both",
             "@keyframes popIn": {
               from: { transform: "scale(0)" },
@@ -449,19 +403,20 @@ const SignUpPanel: React.FC = () => {
             },
           }}
         >
-          <CheckCircleOutline sx={{ fontSize: 36, color: "#fff" }} />
+          <CheckCircleOutline sx={{ fontSize: 32, color: "#fff" }} />
         </Box>
         <Typography
           sx={{
             fontFamily: "'Playfair Display', serif",
-            fontSize: 22,
+            fontSize: "1.4rem",
             color: "text.primary",
+            fontWeight: 700,
           }}
         >
           Account created!
         </Typography>
-        <Typography sx={{ fontSize: 13, color: "text.secondary" }}>
-          Your Inkwell account is ready. Redirecting…
+        <Typography sx={{ fontSize: "0.84rem", color: "text.secondary" }}>
+          Redirecting to your dashboard…
         </Typography>
       </Box>
     );
@@ -472,22 +427,23 @@ const SignUpPanel: React.FC = () => {
       <Typography
         sx={{
           fontFamily: "'Playfair Display', serif",
-          fontSize: 24,
+          fontSize: "1.45rem",
           color: "text.primary",
-          mb: 0.75,
+          mb: 0.5,
+          fontWeight: 700,
         }}
       >
         Start writing today
       </Typography>
       <Typography
         sx={{
-          fontSize: 13.5,
+          fontSize: "0.84rem",
           color: "text.secondary",
-          mb: 3.5,
+          mb: 3,
           fontWeight: 300,
         }}
       >
-        Create your free Inkwell account in seconds.
+        Create your free BuildBlogs account in seconds.
       </Typography>
 
       <Button
@@ -496,34 +452,34 @@ const SignUpPanel: React.FC = () => {
         onClick={handleGoogleSignUp}
         startIcon={<GoogleIcon />}
         sx={{
-          py: 1.25,
+          py: 1.2,
           borderColor: "divider",
           color: "text.primary",
           fontFamily: "'DM Sans', sans-serif",
-          fontSize: 14,
+          fontSize: "0.875rem",
           fontWeight: 500,
           borderRadius: "10px",
           textTransform: "none",
-          "&:hover": { borderColor: "#aaa", bgcolor: "background.default" },
+          "&:hover": { borderColor: TOKENS.copper, bgcolor: "transparent" },
         }}
       >
         Sign up with Google
       </Button>
 
-      <Divider sx={{ my: 2.75, fontSize: 12, color: "text.secondary" }}>
+      <Divider sx={{ my: 2.5, fontSize: "0.75rem", color: "text.secondary" }}>
         or sign up with email
       </Divider>
 
       {error && (
         <Alert
           severity="error"
-          sx={{ mb: 2, borderRadius: "8px", fontSize: 13 }}
+          sx={{ mb: 2, borderRadius: 2, fontSize: "0.82rem" }}
         >
           {error}
         </Alert>
       )}
 
-      <Stack spacing={2}>
+      <Stack spacing={1.75}>
         <Box sx={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 1.5 }}>
           <TextField
             label="First name"
@@ -531,10 +487,10 @@ const SignUpPanel: React.FC = () => {
             value={firstName}
             onChange={(e) => {
               setFirstName(e.target.value);
-              setError("");
+              clear();
             }}
             size="small"
-            InputProps={{ sx: { borderRadius: "9px", fontSize: 14 } }}
+            InputProps={{ sx: fieldSx }}
           />
           <TextField
             label="Last name"
@@ -542,10 +498,10 @@ const SignUpPanel: React.FC = () => {
             value={lastName}
             onChange={(e) => {
               setLastName(e.target.value);
-              setError("");
+              clear();
             }}
             size="small"
-            InputProps={{ sx: { borderRadius: "9px", fontSize: 14 } }}
+            InputProps={{ sx: fieldSx }}
           />
         </Box>
         <TextField
@@ -556,11 +512,11 @@ const SignUpPanel: React.FC = () => {
           value={email}
           onChange={(e) => {
             setEmail(e.target.value);
-            setError("");
+            clear();
           }}
           fullWidth
           size="small"
-          InputProps={{ sx: { borderRadius: "9px", fontSize: 14 } }}
+          InputProps={{ sx: fieldSx }}
         />
         <TextField
           label="Password"
@@ -570,12 +526,12 @@ const SignUpPanel: React.FC = () => {
           value={password}
           onChange={(e) => {
             setPassword(e.target.value);
-            setError("");
+            clear();
           }}
           fullWidth
           size="small"
           InputProps={{
-            sx: { borderRadius: "9px", fontSize: 14 },
+            sx: fieldSx,
             endAdornment: (
               <InputAdornment position="end">
                 <IconButton
@@ -594,18 +550,18 @@ const SignUpPanel: React.FC = () => {
           }}
         />
         <TextField
-          label="Confirm Password"
+          label="Confirm password"
           type="password"
           placeholder="Re-enter your password"
           autoComplete="new-password"
           value={confirmPass}
           onChange={(e) => {
             setConfirmPass(e.target.value);
-            setError("");
+            clear();
           }}
           fullWidth
           size="small"
-          InputProps={{ sx: { borderRadius: "9px", fontSize: 14 } }}
+          InputProps={{ sx: fieldSx }}
         />
       </Stack>
 
@@ -616,53 +572,29 @@ const SignUpPanel: React.FC = () => {
         disabled={loading}
         sx={{
           mt: 2.5,
-          py: 1.4,
-          bgcolor: "text.primary",
+          py: 1.35,
+          bgcolor: TOKENS.copper,
           color: "#fff",
           borderRadius: "10px",
           fontFamily: "'DM Sans', sans-serif",
-          fontSize: 15,
-          fontWeight: 500,
+          fontSize: "0.95rem",
+          fontWeight: 600,
           textTransform: "none",
-          "&:hover": { bgcolor: "#2e2e2e" },
+          "&:hover": { bgcolor: TOKENS.copperDark },
           "&:active": { transform: "scale(0.98)" },
-          "&.Mui-disabled": { bgcolor: "#aaa", color: "#fff" },
+          "&.Mui-disabled": {
+            bgcolor: alpha(TOKENS.copper, 0.4),
+            color: "#fff",
+          },
+          transition: "all 0.18s ease",
         }}
       >
         {loading ? (
-          <CircularProgress size={22} sx={{ color: "#fff" }} />
+          <CircularProgress size={20} sx={{ color: "#fff" }} />
         ) : (
           "Create Account"
         )}
       </Button>
-
-      <Typography
-        sx={{
-          mt: 2,
-          fontSize: 12,
-          color: "text.secondary",
-          textAlign: "center",
-          lineHeight: 1.6,
-        }}
-      >
-        By creating an account you agree to our{" "}
-        <Link
-          href="#"
-          underline="hover"
-          sx={{ color: "primary.main", fontSize: 12 }}
-        >
-          Terms of Service
-        </Link>{" "}
-        and{" "}
-        <Link
-          href="#"
-          underline="hover"
-          sx={{ color: "primary.main", fontSize: 12 }}
-        >
-          Privacy Policy
-        </Link>
-        .
-      </Typography>
     </Box>
   );
 };
@@ -686,8 +618,8 @@ const Authpage: React.FC = () => {
           position: "fixed",
           inset: 0,
           background: `
-            radial-gradient(ellipse 60% 50% at 10% 20%, rgba(200,98,42,0.07) 0%, transparent 60%),
-            radial-gradient(ellipse 50% 40% at 90% 80%, rgba(200,98,42,0.05) 0%, transparent 60%)
+            radial-gradient(ellipse 60% 50% at 10% 20%, ${alpha(TOKENS.copper, 0.07)} 0%, transparent 60%),
+            radial-gradient(ellipse 50% 40% at 90% 80%, ${alpha(TOKENS.copper, 0.05)} 0%, transparent 60%)
           `,
           pointerEvents: "none",
         },
@@ -698,9 +630,9 @@ const Authpage: React.FC = () => {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          gap: { md: 7.5 },
+          gap: { md: 10, lg: 14 },
           width: "100%",
-          maxWidth: 1100,
+          maxWidth: 1060,
         }}
       >
         <BrandPanel />
@@ -714,12 +646,20 @@ const Authpage: React.FC = () => {
             borderRadius: "20px",
             border: "1px solid",
             borderColor: "divider",
-            boxShadow: "0 4px 32px rgba(26,26,26,0.08)",
-            animation: "fadeSlideUp 0.7s 0.15s ease both",
+            boxShadow: "0 4px 32px rgba(26,26,26,0.07)",
+            animation: "fadeSlideUp 0.65s 0.12s ease both",
           }}
         >
           <Box
-            sx={{ bgcolor: "#ede8e1", borderRadius: "10px", p: "4px", mb: 4 }}
+            sx={{
+              bgcolor: (theme) =>
+                theme.palette.mode === "dark"
+                  ? TOKENS.darkDeep
+                  : TOKENS.creamDeep,
+              borderRadius: "10px",
+              p: "4px",
+              mb: 4,
+            }}
           >
             <Tabs
               value={tab}
@@ -732,16 +672,16 @@ const Authpage: React.FC = () => {
                   minHeight: 36,
                   textTransform: "none",
                   fontFamily: "'DM Sans', sans-serif",
-                  fontSize: 14,
+                  fontSize: "0.875rem",
                   fontWeight: 500,
                   color: "text.secondary",
                   borderRadius: "7px",
-                  transition: "all 0.22s ease",
+                  transition: "all 0.2s ease",
                   p: "6px 12px",
                 },
                 "& .Mui-selected": {
                   color: "text.primary !important",
-                  bgcolor: "#fff",
+                  bgcolor: "background.paper",
                   boxShadow: "0 1px 6px rgba(26,26,26,0.1)",
                 },
               }}
@@ -760,9 +700,8 @@ const Authpage: React.FC = () => {
       </Box>
 
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap');
         @keyframes fadeSlideUp {
-          from { opacity: 0; transform: translateY(22px); }
+          from { opacity: 0; transform: translateY(20px); }
           to   { opacity: 1; transform: translateY(0); }
         }
       `}</style>
