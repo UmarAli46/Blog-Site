@@ -12,8 +12,6 @@ import { TOKENS } from "../theme";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import GitHubIcon from "@mui/icons-material/GitHub";
-import EmailIcon from "@mui/icons-material/Email";
-// import FavoriteIcon from "@mui/icons-material/Favorite";
 import LayersIcon from "@mui/icons-material/Layers";
 import { useNavigate } from "react-router-dom";
 
@@ -57,11 +55,6 @@ const Footer = () => {
       icon: <GitHubIcon sx={{ fontSize: 18 }} />,
       url: "https://github.com",
       label: "GitHub",
-    },
-    {
-      icon: <EmailIcon sx={{ fontSize: 18 }} />,
-      url: "mailto:hello@buildblogs.com",
-      label: "Email",
     },
   ];
 
