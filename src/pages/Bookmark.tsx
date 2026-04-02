@@ -129,7 +129,6 @@ export default function BookmarkPage() {
   return (
     <Box sx={{ bgcolor: "background.default", minHeight: "100vh", mt: 5 }}>
       <Container maxWidth="md" sx={{ py: { xs: 5, md: 8 } }}>
-        {/* Header */}
         <Stack
           direction="row"
           alignItems="center"
@@ -255,7 +254,6 @@ export default function BookmarkPage() {
           </Stack>
         )}
 
-        {/* Cards */}
         {!loading && posts.length > 0 && (
           <Stack spacing={2}>
             {posts.map((post) => {

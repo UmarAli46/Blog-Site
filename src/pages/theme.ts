@@ -50,7 +50,7 @@ export const buildTheme = (mode: PaletteMode) => {
     },
 
     typography: {
-      fontFamily: `'DM Sans', sans-serif`,
+      fontFamily: `'Lato', sans-serif`,
       h1: { fontFamily: `'Playfair Display', serif` },
       h2: { fontFamily: `'Playfair Display', serif` },
       h3: { fontFamily: `'Playfair Display', serif` },
@@ -61,10 +61,10 @@ export const buildTheme = (mode: PaletteMode) => {
 
     shape: { borderRadius: 8 },
 
-    components: {
+    components: { 
       MuiCssBaseline: {
         styleOverrides: `
-          @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap');
+          @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap');
           * { box-sizing: border-box; }
           body { transition: background-color 0.3s ease, color 0.3s ease; }
         `,
@@ -73,7 +73,7 @@ export const buildTheme = (mode: PaletteMode) => {
         styleOverrides: {
           root: {
             textTransform: "none",
-            fontFamily: `'DM Sans', sans-serif`,
+            fontFamily: `'Lato', sans-serif`,
             fontWeight: 600,
           },
         },
@@ -99,7 +99,7 @@ export const buildTheme = (mode: PaletteMode) => {
       },
       MuiChip: {
         styleOverrides: {
-          root: { fontFamily: `'DM Sans', sans-serif` },
+          root: { fontFamily: `'Lato', sans-serif` },
         },
       },
       MuiTextField: {
@@ -168,7 +168,7 @@ export const buildTheme = (mode: PaletteMode) => {
         styleOverrides: {
           root: {
             backgroundColor: TOKENS.copper,
-            fontFamily: `'DM Sans', sans-serif`,
+            fontFamily: `'Lato', sans-serif`,
             fontWeight: 700,
           },
         },
@@ -177,7 +177,7 @@ export const buildTheme = (mode: PaletteMode) => {
         styleOverrides: {
           tooltip: {
             backgroundColor: isDark ? TOKENS.darkDeep : TOKENS.inkDark,
-            fontFamily: `'DM Sans', sans-serif`,
+            fontFamily: `'Lato', sans-serif`,
             fontSize: "0.75rem",
           },
         },

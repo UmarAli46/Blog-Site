@@ -42,7 +42,8 @@ import {
 import { auth, db } from "../firebase/firebase-config";
 import { useAppDispatch, useAppSelector } from "../redux/Bloghooks";
 import { fetchQuoteRequest } from "../redux/features/Quoteslice";
-
+import SearchIcon from "@mui/icons-material/Search";
+import InputBase from "@mui/material/InputBase";
 interface BlogPost {
   id: string;
   title: string;
@@ -74,7 +75,7 @@ function formatDate(ts: number) {
 function estimateReadTime(html: string) {
   const div = document.createElement("div");
   div.innerHTML = html;
-  return `${Math.max(1, Math.round((div.textContent || "").trim().split(/\s+/).length / 200))} min`;
+  return `${Math.max(1, Math.round((div.textContent || "").trim().split(/\s+/).length / 100))} min`;
 }
 function initials(name: string) {
   return name
@@ -286,31 +287,9 @@ const QuoteCard: React.FC = () => {
               >
                 {quote?.author}
               </Typography>
-              {/* <Typography
-                sx={{
-                  fontSize: "0.7rem",
-                  color: isDark ? "rgba(255,255,255,0.35)" : "text.disabled",
-                }}
-              >
-                via Quotable
-              </Typography> */}
             </Box>
           </Box>
         )}
-        {/* <Chip
-          label="Inspire"
-          size="small"
-          sx={{
-            bgcolor: "rgba(194,110,62,0.12)",
-            color: "#C26E3E",
-            border: "1px solid rgba(194,110,62,0.25)",
-            fontSize: "0.62rem",
-            fontWeight: 700,
-            letterSpacing: "0.1em",
-            height: 22,
-            borderRadius: "4px",
-          }}
-        /> */}
       </Box>
     </Paper>
   );
@@ -356,41 +335,6 @@ const Hero: React.FC<{ totalCount: number }> = ({ totalCount }) => {
       >
         <Grid container spacing={4} alignItems="center">
           <Grid size={{ xs: 12, md: 7 }}>
-            <Box
-              sx={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: 1,
-                border: "1px solid",
-                borderColor: isDark
-                  ? "rgba(194,110,62,0.35)"
-                  : "rgba(194,110,62,0.4)",
-                borderRadius: "20px",
-                px: 1.75,
-                py: 0.625,
-                mb: 2,
-              }}
-            >
-              <Box
-                sx={{
-                  width: 6,
-                  height: 6,
-                  borderRadius: "50%",
-                  bgcolor: "#C26E3E",
-                }}
-              />
-              <Typography
-                sx={{
-                  fontSize: "0.7rem",
-                  fontWeight: 500,
-                  letterSpacing: "0.1em",
-                  color: isDark ? "rgba(255,255,255,0.55)" : "text.secondary",
-                }}
-              >
-                Engineering · Design · Product
-              </Typography>
-            </Box>
-
             <Typography
               variant="h1"
               sx={{
@@ -430,51 +374,48 @@ const Hero: React.FC<{ totalCount: number }> = ({ totalCount }) => {
             </Typography>
 
             <Box sx={{ display: "flex", gap: 3, alignItems: "center" }}>
-              {[
-                { num: String(totalCount), label: "Articles" },
-                null,
-                { num: "Weekly", label: "Cadence" },
-              ].map((item, i) =>
-                item === null ? (
-                  <Box
-                    key={i}
-                    sx={{
-                      width: "1px",
-                      height: 36,
-                      bgcolor: isDark
-                        ? "rgba(255,255,255,0.1)"
-                        : "rgba(0,0,0,0.12)",
-                    }}
-                  />
-                ) : (
-                  <Box key={i}>
-                    <Typography
+              {[{ num: String(totalCount), label: "Articles" }, null].map(
+                (item, i) =>
+                  item === null ? (
+                    <Box
+                      key={i}
                       sx={{
-                        fontFamily: `'Playfair Display',serif`,
-                        fontSize: "1.6rem",
-                        fontWeight: 700,
-                        color: isDark ? "white" : "text.primary",
-                        lineHeight: 1,
+                        width: "1px",
+                        height: 36,
+                        bgcolor: isDark
+                          ? "rgba(255,255,255,0.1)"
+                          : "rgba(0,0,0,0.12)",
                       }}
-                    >
-                      {item.num}
-                    </Typography>
-                    <Typography
-                      sx={{
-                        fontSize: "0.65rem",
-                        fontWeight: 600,
-                        letterSpacing: "0.12em",
-                        textTransform: "uppercase",
-                        color: isDark
-                          ? "rgba(255,255,255,0.3)"
-                          : "text.disabled",
-                        mt: 0.5,
-                      }}
-                    >
-                      {item.label}
-                    </Typography>
-                  </Box>
-                ),
+                    />
+                  ) : (
+                    <Box key={i}>
+                      <Typography
+                        sx={{
+                          fontFamily: `'Playfair Display',serif`,
+                          fontSize: "1.6rem",
+                          fontWeight: 700,
+                          color: isDark ? "white" : "text.primary",
+                          lineHeight: 1,
+                        }}
+                      >
+                        {item.num}
+                      </Typography>
+                      <Typography
+                        sx={{
+                          fontSize: "0.65rem",
+                          fontWeight: 600,
+                          letterSpacing: "0.12em",
+                          textTransform: "uppercase",
+                          color: isDark
+                            ? "rgba(255,255,255,0.3)"
+                            : "text.disabled",
+                          mt: 0.5,
+                        }}
+                      >
+                        {item.label}
+                      </Typography>
+                    </Box>
+                  ),
               )}
             </Box>
 
@@ -917,213 +858,6 @@ const ArticleCard: React.FC<{
   );
 };
 
-// const CreatorSection: React.FC = () => {
-//   const theme = useTheme();
-//   const isDark = theme.palette.mode === "dark";
-
-//   return (
-//     <Paper
-//       elevation={0}
-//       sx={{
-//         bgcolor: isDark ? "#111111" : "grey.50",
-//         borderRadius: 4,
-//         p: { xs: 3, md: 5 },
-//         mt: 2,
-//         display: "grid",
-//         gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" },
-//         gap: 4,
-//         border: "1px solid",
-//         borderColor: isDark ? "rgba(255,255,255,0.06)" : "divider",
-//       }}
-//     >
-//       <Box>
-//         <Typography
-//           sx={{
-//             fontSize: "0.68rem",
-//             fontWeight: 600,
-//             letterSpacing: "0.15em",
-//             textTransform: "uppercase",
-//             color: "#C26E3E",
-//             mb: 1.5,
-//           }}
-//         >
-//           By the creator
-//         </Typography>
-//         <Typography
-//           sx={{
-//             fontFamily: `'Playfair Display',serif`,
-//             fontStyle: "italic",
-//             fontSize: { xs: "1.1rem", md: "1.3rem" },
-//             lineHeight: 1.65,
-//             color: isDark ? "rgba(255,255,255,0.85)" : "text.primary",
-//             mb: 2.5,
-//           }}
-//         >
-//           "I built BuildLogs because I wanted a space where builders share what
-//           they actually learned — not just what worked, but what didn't."
-//         </Typography>
-//         <Box sx={{ display: "flex", alignItems: "center", gap: 1.75 }}>
-//           <Avatar
-//             sx={{
-//               width: 48,
-//               height: 48,
-//               background: "linear-gradient(135deg,#C26E3E,#E58D5B)",
-//               fontSize: "1.1rem",
-//               fontWeight: 700,
-//               border: "2px solid rgba(194,110,62,0.4)",
-//               fontFamily: `'Playfair Display',serif`,
-//             }}
-//           >
-//             HK
-//           </Avatar>
-//           <Box>
-//             <Typography
-//               sx={{
-//                 fontSize: "0.95rem",
-//                 fontWeight: 600,
-//                 color: isDark ? "white" : "text.primary",
-//                 mb: 0.25,
-//               }}
-//             >
-//               Haris Khan
-//             </Typography>
-//             <Typography
-//               sx={{
-//                 fontSize: "0.78rem",
-//                 color: isDark ? "rgba(255,255,255,0.4)" : "text.secondary",
-//               }}
-//             >
-//               Founder · Full-Stack Developer · Pakistan
-//             </Typography>
-//           </Box>
-//         </Box>
-//       </Box>
-
-//       <Box
-//         sx={{
-//           borderLeft: { md: "1px solid" },
-//           borderColor: isDark
-//             ? { md: "rgba(255,255,255,0.07)" }
-//             : { md: "divider" },
-//           pl: { md: 4 },
-//         }}
-//       >
-//         <Stack spacing={1.5} sx={{ mb: 2.5 }}>
-//           {[
-//             {
-//               label: "React · TypeScript · Redux",
-//               sub: "Frontend architecture",
-//               icon: "</>",
-//             },
-//             {
-//               label: "Firebase · Firestore",
-//               sub: "Backend & database",
-//               icon: "DB",
-//             },
-//             { label: "MUI · Tailwind", sub: "UI & design systems", icon: "UI" },
-//           ].map((skill) => (
-//             <Box
-//               key={skill.label}
-//               sx={{ display: "flex", alignItems: "center", gap: 1.5 }}
-//             >
-//               <Box
-//                 sx={{
-//                   width: 36,
-//                   height: 36,
-//                   borderRadius: "8px",
-//                   bgcolor: isDark
-//                     ? "rgba(255,255,255,0.05)"
-//                     : "rgba(0,0,0,0.04)",
-//                   border: "1px solid",
-//                   borderColor: isDark
-//                     ? "rgba(255,255,255,0.08)"
-//                     : "rgba(0,0,0,0.1)",
-//                   display: "flex",
-//                   alignItems: "center",
-//                   justifyContent: "center",
-//                   flexShrink: 0,
-//                 }}
-//               >
-//                 <Typography
-//                   sx={{
-//                     fontSize: "0.58rem",
-//                     fontWeight: 700,
-//                     color: "#C26E3E",
-//                   }}
-//                 >
-//                   {skill.icon}
-//                 </Typography>
-//               </Box>
-//               <Box>
-//                 <Typography
-//                   sx={{
-//                     fontSize: "0.85rem",
-//                     fontWeight: 500,
-//                     color: isDark ? "rgba(255,255,255,0.75)" : "text.primary",
-//                   }}
-//                 >
-//                   {skill.label}
-//                 </Typography>
-//                 <Typography
-//                   sx={{
-//                     fontSize: "0.72rem",
-//                     color: isDark ? "rgba(255,255,255,0.3)" : "text.secondary",
-//                   }}
-//                 >
-//                   {skill.sub}
-//                 </Typography>
-//               </Box>
-//             </Box>
-//           ))}
-//         </Stack>
-//         <Box
-//           sx={{
-//             display: "flex",
-//             gap: 1.25,
-//             borderTop: "1px solid",
-//             borderColor: isDark ? "rgba(255,255,255,0.07)" : "divider",
-//             pt: 2,
-//           }}
-//         >
-//           <Button
-//             variant="contained"
-//             disableElevation
-//             sx={{
-//               bgcolor: "#C26E3E",
-//               color: "white",
-//               fontWeight: 600,
-//               fontSize: "0.8rem",
-//               px: 2.5,
-//               borderRadius: "8px",
-//               "&:hover": { bgcolor: "#E58D5B" },
-//             }}
-//           >
-//             Read my story ↗
-//           </Button>
-//           <Button
-//             variant="outlined"
-//             sx={{
-//               color: isDark ? "rgba(255,255,255,0.55)" : "text.secondary",
-//               borderColor: isDark
-//                 ? "rgba(255,255,255,0.15)"
-//                 : "rgba(0,0,0,0.2)",
-//               fontSize: "0.8rem",
-//               borderRadius: "8px",
-//               "&:hover": {
-//                 borderColor: isDark ? "rgba(255,255,255,0.4)" : "text.primary",
-//                 color: isDark ? "white" : "text.primary",
-//                 bgcolor: "transparent",
-//               },
-//             }}
-//           >
-//             View profile
-//           </Button>
-//         </Box>
-//       </Box>
-//     </Paper>
-//   );
-// };
-
 const EmptyState: React.FC<{ hasPosts: boolean }> = ({ hasPosts }) => (
   <Box sx={{ textAlign: "center", py: 10 }}>
     <Box
@@ -1152,11 +886,12 @@ const EmptyState: React.FC<{ hasPosts: boolean }> = ({ hasPosts }) => (
   </Box>
 );
 
-const BuildBlogs = ({ searchQuery = "" }: { searchQuery?: string }) => {
+const BuildBlogs = () => {
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [bookmarks, setBookmarks] = useState<string[]>([]);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     const unsub = auth.onAuthStateChanged((user) => {
@@ -1177,20 +912,28 @@ const BuildBlogs = ({ searchQuery = "" }: { searchQuery?: string }) => {
         const data: BlogPost[] = await Promise.all(
           snap.docs.map(async (blogDoc) => {
             const d = blogDoc.data();
-            let authorName: string | null = d.authorName ?? null;
-            if (!authorName && d.userEmail) {
+            let authorName: string | null = null;
+
+            if (d.userId) {
               try {
-                const us = await getDoc(doc(db, "users", d.userEmail));
-                if (us.exists()) {
-                  const { firstName, lastName } = us.data();
-                  authorName =
-                    `${firstName ?? ""} ${lastName ?? ""}`.trim() ||
-                    d.userEmail;
-                } else authorName = d.userEmail;
-              } catch {
-                authorName = d.userEmail ?? null;
+                const userDoc = await getDoc(doc(db, "users", d.userId));
+                if (userDoc.exists()) {
+                  const { firstName, lastName } = userDoc.data();
+                  const fullName =
+                    `${firstName ?? ""} ${lastName ?? ""}`.trim();
+                  authorName = fullName || d.userEmail || "Unknown Author";
+                } else {
+                  console.warn("No user doc found for UID:", d.userId);
+                  authorName = d.userEmail ?? "Unknown Author";
+                }
+              } catch (err) {
+                console.error("User fetch error:", err);
+                authorName = d.userEmail ?? "Unknown Author";
               }
+            } else {
+              authorName = d.userEmail ?? "Unknown Author";
             }
+
             return {
               id: blogDoc.id,
               title: d.title ?? "Untitled",
@@ -1235,7 +978,7 @@ const BuildBlogs = ({ searchQuery = "" }: { searchQuery?: string }) => {
   const rest = filtered.slice(1);
 
   return (
-    <Box sx={{ bgcolor: "background.default", minHeight: "100vh" }}>
+    <Box sx={{ mt: 8, bgcolor: "background.default", minHeight: "100vh" }}>
       {loading && (
         <Box
           display="flex"
@@ -1260,6 +1003,41 @@ const BuildBlogs = ({ searchQuery = "" }: { searchQuery?: string }) => {
         <>
           <Hero totalCount={posts.length} />
           <Container maxWidth="lg" sx={{ py: 5, px: { xs: 3, md: 6 } }}>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "flex-end",
+                width: "100%",
+              }}
+            >
+              <Paper
+                variant="outlined"
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 0.75,
+                  px: 1.5,
+                  height: 40,
+                  borderRadius: "8px",
+                  mb: 4,
+                  maxWidth: 600,
+                  "&:focus-within": { borderColor: "primary.main" },
+                  transition: "border-color 0.2s",
+                }}
+              >
+                <SearchIcon sx={{ fontSize: 16, color: "text.disabled" }} />
+                <InputBase
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Search articles…"
+                  sx={{
+                    fontSize: "0.875rem",
+                    flex: 1,
+                    "& input": { p: 0 },
+                  }}
+                />
+              </Paper>
+            </Box>
             {filtered.length === 0 ? (
               <EmptyState hasPosts={posts.length > 0} />
             ) : (
@@ -1310,7 +1088,6 @@ const BuildBlogs = ({ searchQuery = "" }: { searchQuery?: string }) => {
                 )}
               </>
             )}
-            {/* <CreatorSection /> */}
           </Container>
         </>
       )}

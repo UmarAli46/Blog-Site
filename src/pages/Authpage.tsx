@@ -161,13 +161,13 @@ const SignInPanel: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
 
   const handleSignIn = () => {
     signInWithEmailAndPassword(auth, email, password)
-      .then(() => navigate("/drawer"))
+      .then(() => navigate("/Homepage"))
       .catch(() => showError("Invalid credentials. Please try again."));
   };
 
   const handleGoogleSignIn = () => {
     signInWithPopup(auth, googleProvider)
-      .then(() => navigate("/drawer"))
+      .then(() => navigate("/Homepage"))
       .catch(() => showError("Google sign-in failed. Please try again."));
   };
 
@@ -360,7 +360,7 @@ const SignUpPanel: React.FC = () => {
       await setDoc(doc(db, "users", user.uid), { firstName, lastName, email });
       setLoading(false);
       setSuccess(true);
-      setTimeout(() => navigate("/drawer"), 1800);
+      setTimeout(() => navigate("/Homepage"), 1800);
     } catch (err: any) {
       setLoading(false);
       setError(err.message || "Signup failed.");
@@ -369,7 +369,7 @@ const SignUpPanel: React.FC = () => {
 
   const handleGoogleSignUp = () => {
     signInWithPopup(auth, googleProvider)
-      .then(() => navigate("/drawer"))
+      .then(() => navigate("/Homepage"))
       .catch((err) => setError(err.message || "Google sign-up failed."));
   };
 

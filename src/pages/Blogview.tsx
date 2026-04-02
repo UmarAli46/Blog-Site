@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
+import Footer from "./components/Footer";
 import {
   Box,
   Container,
@@ -17,7 +18,8 @@ import AccessTimeOutlinedIcon from "@mui/icons-material/AccessTimeOutlined";
 import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
 import { initializeApp, getApps } from "firebase/app";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
-import { TOKENS } from "./theme"; // adjust path as needed
+import { TOKENS } from "./theme";
+import Comments from "../pages/components/comments";
 
 const firebaseConfig = {};
 const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
@@ -35,7 +37,7 @@ function estimateReadTime(html: string) {
   const div = document.createElement("div");
   div.innerHTML = html;
   const words = (div.textContent || "").trim().split(/\s+/).length;
-  return `${Math.max(1, Math.round(words / 200))} min read`;
+  return `${Math.max(1, Math.round(words / 100))} min read`;
 }
 
 function extractFirstImage(html: string): string | null {
@@ -93,7 +95,6 @@ export default function BlogDetail() {
 
   return (
     <Box sx={{ bgcolor: "background.default", minHeight: "100vh" }}>
-      {/* Sticky header */}
       <Box
         sx={{
           borderBottom: "1px solid",
@@ -113,7 +114,7 @@ export default function BlogDetail() {
           >
             <Button
               startIcon={<ArrowBackIcon sx={{ fontSize: "14px !important" }} />}
-              onClick={() => navigate("/drawer")}
+              onClick={() => navigate(-1)}
               sx={{
                 fontFamily: "'DM Sans', sans-serif",
                 fontSize: "0.78rem",
@@ -131,8 +132,13 @@ export default function BlogDetail() {
               Back
             </Button>
 
-            {/* Wordmark */}
-            <Stack direction="row" alignItems="baseline" spacing={0.5}>
+            <Stack
+              onClick={() => navigate(-1)}
+              sx={{ cursor: "pointer" }}
+              direction="row"
+              alignItems="baseline"
+              spacing={0.5}
+            >
               <Typography
                 sx={{
                   fontFamily: "'Playfair Display', serif",
@@ -160,7 +166,6 @@ export default function BlogDetail() {
         </Container>
       </Box>
 
-      {/* Loading */}
       {loading && (
         <Box
           display="flex"
@@ -176,7 +181,6 @@ export default function BlogDetail() {
         </Box>
       )}
 
-      {/* Error */}
       {error && (
         <Box textAlign="center" py={12}>
           <Typography color="error" sx={{ mb: 2 }}>
@@ -202,7 +206,6 @@ export default function BlogDetail() {
 
       {post && (
         <>
-          {/* Hero image / gradient banner */}
           <Box
             sx={{
               width: "100%",
@@ -244,9 +247,7 @@ export default function BlogDetail() {
             )}
           </Box>
 
-          {/* Content */}
           <Container maxWidth="md" sx={{ py: { xs: 5, md: 8 } }}>
-            {/* Meta row */}
             <Stack
               direction="row"
               spacing={2}
@@ -301,7 +302,6 @@ export default function BlogDetail() {
               </Stack>
             </Stack>
 
-            {/* Title */}
             <Typography
               sx={{
                 fontFamily: "'Playfair Display', serif",
@@ -318,7 +318,6 @@ export default function BlogDetail() {
 
             <Divider sx={{ mb: 5 }} />
 
-            {/* Body */}
             <Box
               dangerouslySetInnerHTML={{ __html: post.content }}
               sx={{
@@ -401,33 +400,11 @@ export default function BlogDetail() {
                 },
               }}
             />
-
-            {/* <Divider sx={{ mt: 8, mb: 4 }} />
-
-            <Button
-              startIcon={<ArrowBackIcon />}
-              onClick={() => navigate(-1)}
-              variant="outlined"
-              sx={{
-                borderColor: "divider",
-                color: "text.secondary",
-                fontFamily: "'DM Sans', sans-serif",
-                fontSize: "0.78rem",
-                textTransform: "uppercase",
-                letterSpacing: "0.06em",
-                fontWeight: 600,
-                "&:hover": {
-                  borderColor: TOKENS.copper,
-                  color: TOKENS.copper,
-                  bgcolor: "transparent",
-                },
-              }}
-            >
-              Back to Articles
-            </Button> */}
           </Container>
+          <Comments blogId={id!} />
         </>
       )}
+      <Footer />
     </Box>
   );
 }
