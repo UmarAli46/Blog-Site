@@ -197,15 +197,9 @@ const Pages = () => {
       >
         <Box>
           <Typography
-            variant="overline"
-            sx={{ letterSpacing: 3, color: "primary.main", fontWeight: 700 }}
-          >
-            Manage
-          </Typography>
-          <Typography
             variant="h4"
             fontWeight={700}
-            sx={{ letterSpacing: "-0.5px", color: "text.primary" }}
+            sx={{ letterSpacing: "-0.5px", color: "text.primary", mt: 5 }}
           >
             Published Blogs
           </Typography>

@@ -20,7 +20,7 @@ interface BlogEditorProps {
   onSave?: (data: { title: string; content: string }) => void;
 }
 
-const Heropage: React.FC<BlogEditorProps> = ({ onSave }) => {
+const CreateBlog: React.FC<BlogEditorProps> = ({ onSave }) => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [saving, setSaving] = useState(false);
@@ -90,7 +90,7 @@ const Heropage: React.FC<BlogEditorProps> = ({ onSave }) => {
         <Typography
           variant="h4"
           fontWeight={700}
-          sx={{ letterSpacing: "-0.5px", color: "text.primary", mt: 1 }}
+          sx={{ letterSpacing: "-0.5px", color: "text.primary", mt: 5 }}
         >
           Create a New Blog
         </Typography>
@@ -276,4 +276,4 @@ const Heropage: React.FC<BlogEditorProps> = ({ onSave }) => {
   );
 };
 
-export default Heropage;
+export default CreateBlog;

@@ -37,7 +37,7 @@ import {
 import { auth, db } from "../firebase/firebase-config";
 import { doc, getDoc } from "firebase/firestore";
 
-import Heropage from "./Heropage";
+import CreateBlogs from "./CreateBlogs";
 import Pages from "./pages";
 import BuildBlogs from "./BuildBlogs";
 import Bookmark from "./Bookmark";
@@ -388,7 +388,7 @@ export default function DrawerSlider({ mode, toggleMode }: Props) {
       <Main open={open}>
         <Routes>
           <Route index element={<BuildBlogs />} />
-          <Route path="create" element={<Heropage />} />
+          <Route path="create" element={<CreateBlogs />} />
           <Route path="published" element={<Pages />} />
           <Route path="saved" element={<Bookmark />} />
 
