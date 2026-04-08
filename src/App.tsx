@@ -1,4 +1,5 @@
 import "./App.css";
+import { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -26,7 +27,17 @@ const PageLoader = () => (
 );
 
 function App() {
-  const [mode, setMode] = useState<PaletteMode>("light");
+  // const [mode, setMode] = useState<PaletteMode>("light");
+
+  const [mode, setMode] = useState<PaletteMode>(() => {
+    const savedMode = localStorage.getItem("buildblogs_theme_mode");
+    return (savedMode as PaletteMode) || "light";
+  });
+
+  useEffect(() => {
+    localStorage.setItem("buildblogs_theme_mode", mode);
+  }, [mode]);
+
   const theme = useMemo(() => buildTheme(mode), [mode]);
 
   const toggleMode = () => setMode((m) => (m === "light" ? "dark" : "light"));
