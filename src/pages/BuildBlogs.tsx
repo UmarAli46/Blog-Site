@@ -989,10 +989,7 @@ const BuildBlogs = () => {
     [rest, startIndex, endIndex],
   );
 
-  const handlePageChange = (
-    event: React.ChangeEvent<unknown>,
-    page: number,
-  ) => {
+  const handlePageChange = (_e: React.ChangeEvent<unknown>, page: number) => {
     setCurrentPage(page);
     // Scroll to "All Articles" section
     const element = document.getElementById("all-articles-section");
