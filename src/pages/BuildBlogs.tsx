@@ -2,7 +2,6 @@ import React, { useState, useMemo, useEffect } from "react";
 import {
   Box,
   Typography,
-  // InputBase,
   Button,
   IconButton,
   Card,
@@ -980,7 +979,6 @@ const BuildBlogs = () => {
   const featured = filtered[0] ?? null;
   const rest = filtered.slice(1);
 
-  // Pagination logic for rest articles
   const totalPages = Math.ceil(rest.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
@@ -991,7 +989,7 @@ const BuildBlogs = () => {
 
   const handlePageChange = (_e: React.ChangeEvent<unknown>, page: number) => {
     setCurrentPage(page);
-    // Scroll to "All Articles" section
+
     const element = document.getElementById("all-articles-section");
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });
@@ -1051,7 +1049,7 @@ const BuildBlogs = () => {
                   value={searchQuery}
                   onChange={(e) => {
                     setSearchQuery(e.target.value);
-                    setCurrentPage(1); // Reset to first page on search
+                    setCurrentPage(1);
                   }}
                   placeholder="Search articles…"
                   sx={{
@@ -1110,7 +1108,6 @@ const BuildBlogs = () => {
                       ))}
                     </Grid>
 
-                    {/* Pagination Controls */}
                     {totalPages > 1 && (
                       <Box
                         sx={{
