@@ -11,7 +11,11 @@ import {
   CircularProgress,
   Container,
   alpha,
+  Stack,
+  Toolbar,
+  Divider,
 } from "@mui/material";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import {
   EmailOutlined as EmailIcon,
   PersonOutlined as PersonIcon,
@@ -151,9 +155,69 @@ function Profile() {
       sx={{
         minHeight: "100vh",
         bgcolor: "background.default",
-        py: { xs: 5, md: 10 },
+        pb: { xs: 5, md: 5 },
       }}
     >
+      <Container maxWidth="lg">
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="space-between"
+          py={1.75}
+        >
+          <Button
+            startIcon={<ArrowBackIcon sx={{ fontSize: "14px !important" }} />}
+            onClick={() => navigate(-1)}
+            sx={{
+              fontFamily: "'DM Sans', sans-serif",
+              fontSize: "0.78rem",
+              fontWeight: 600,
+              color: "text.secondary",
+              textTransform: "uppercase",
+              letterSpacing: "0.07em",
+              px: 0,
+              "&:hover": {
+                color: TOKENS.copper,
+                bgcolor: "transparent",
+              },
+            }}
+          >
+            Back
+          </Button>
+
+          <Stack
+            onClick={() => navigate(-1)}
+            sx={{ cursor: "pointer" }}
+            direction="row"
+            alignItems="baseline"
+            spacing={0.5}
+          >
+            <Typography
+              sx={{
+                fontFamily: "'Playfair Display', serif",
+                fontWeight: 700,
+                fontSize: "1.15rem",
+                color: "text.primary",
+              }}
+            >
+              Build
+            </Typography>
+            <Typography
+              sx={{
+                fontFamily: "'Playfair Display', serif",
+                fontWeight: 700,
+                fontSize: "1.15rem",
+                color: TOKENS.copper,
+              }}
+            >
+              Blogs
+            </Typography>
+          </Stack>
+
+          <Box sx={{ width: 64 }} />
+        </Stack>
+      </Container>
+      <Divider sx={{ mb: 3 }} />
       <Container maxWidth="xs">
         <Box sx={{ textAlign: "center", mb: 5 }}>
           <Avatar

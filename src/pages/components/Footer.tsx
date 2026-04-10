@@ -83,7 +83,6 @@ const Footer = () => {
             mb: 5,
           }}
         >
-          {/* Brand Column */}
           <Box>
             <Stack
               direction="row"
@@ -113,7 +112,7 @@ const Footer = () => {
                 sx={{
                   fontFamily: "'Playfair Display', serif",
                   fontSize: "1.35rem",
-                  color: "text.primary",
+                  color: "#fff",
                   letterSpacing: "0.01em",
                   fontWeight: 700,
                 }}
@@ -124,9 +123,9 @@ const Footer = () => {
 
             <Typography
               sx={{
-                fontSize: "0.875rem",
+                fontSize: "0.900rem",
                 lineHeight: 1.7,
-                color: "text.primary",
+                color: "#fff",
                 mb: 3,
                 maxWidth: 320,
               }}
@@ -146,10 +145,8 @@ const Footer = () => {
                   sx={{
                     width: 36,
                     height: 36,
-                    bgcolor: isDark
-                      ? "rgba(255,255,255,0.05)"
-                      : "rgba(0,0,0,0.09)",
-                    color: "text.primary",
+                    bgcolor: isDark ? "#fff" : "#fff",
+                    color: "#0a0a0a",
                     "&:hover": {
                       bgcolor: isDark ? TOKENS.copper : "#0a0a0a",
                       color: "#fff",
@@ -164,7 +161,6 @@ const Footer = () => {
             </Stack>
           </Box>
 
-          {/* Link Columns */}
           {footerLinks.map((section) => (
             <Box key={section.title}>
               <Typography
@@ -173,7 +169,7 @@ const Footer = () => {
                   fontWeight: 700,
                   letterSpacing: "0.1em",
                   textTransform: "uppercase",
-                  color: "text.primary",
+                  color: "#fff",
                   mb: 2,
                 }}
               >
@@ -185,13 +181,13 @@ const Footer = () => {
                     key={link.label}
                     onClick={() => link.path !== "#" && navigate(link.path)}
                     sx={{
-                      fontSize: "0.875rem",
-                      color: "text.primary",
+                      fontSize: "0.900rem",
+                      color: "#fff",
                       textDecoration: "none",
                       cursor: "pointer",
                       transition: "color 0.2s ease",
                       "&:hover": {
-                        color: isDark ? TOKENS.copper : "#fff",
+                        color: isDark ? TOKENS.copper : "#0a0a0a",
                       },
                     }}
                   >
@@ -213,8 +209,8 @@ const Footer = () => {
         >
           <Typography
             sx={{
-              fontSize: "0.8rem",
-              color: isDark ? "rgba(255,255,255,0.7)" : "rgba(0,0,0,0.90)",
+              fontSize: "0.900rem",
+              color: isDark ? "rgba(255,255,255,0.7)" : "#fff",
               display: "flex",
               alignItems: "center",
               gap: 0.5,

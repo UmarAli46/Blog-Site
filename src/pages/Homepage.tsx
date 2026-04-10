@@ -113,7 +113,7 @@ interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
 }
 
-interface Props {
+export interface Props {
   toggleMode: () => void;
   mode: "light" | "dark";
 }

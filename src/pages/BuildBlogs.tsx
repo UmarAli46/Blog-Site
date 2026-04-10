@@ -19,6 +19,7 @@ import {
   Alert,
   Stack,
   Skeleton,
+  Pagination,
 } from "@mui/material";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
@@ -892,6 +893,8 @@ const BuildBlogs = () => {
   const [error, setError] = useState<string | null>(null);
   const [bookmarks, setBookmarks] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6;
 
   useEffect(() => {
     const unsub = auth.onAuthStateChanged((user) => {
@@ -977,6 +980,27 @@ const BuildBlogs = () => {
   const featured = filtered[0] ?? null;
   const rest = filtered.slice(1);
 
+  // Pagination logic for rest articles
+  const totalPages = Math.ceil(rest.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedPosts = useMemo(
+    () => rest.slice(startIndex, endIndex),
+    [rest, startIndex, endIndex],
+  );
+
+  const handlePageChange = (
+    event: React.ChangeEvent<unknown>,
+    page: number,
+  ) => {
+    setCurrentPage(page);
+    // Scroll to "All Articles" section
+    const element = document.getElementById("all-articles-section");
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <Box sx={{ mt: 8, bgcolor: "background.default", minHeight: "100vh" }}>
       {loading && (
@@ -1028,7 +1052,10 @@ const BuildBlogs = () => {
                 <SearchIcon sx={{ fontSize: 16, color: "text.disabled" }} />
                 <InputBase
                   value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onChange={(e) => {
+                    setSearchQuery(e.target.value);
+                    setCurrentPage(1); // Reset to first page on search
+                  }}
                   placeholder="Search articles…"
                   sx={{
                     fontSize: "0.875rem",
@@ -1054,6 +1081,7 @@ const BuildBlogs = () => {
                 {rest.length > 0 && (
                   <>
                     <Box
+                      id="all-articles-section"
                       sx={{
                         display: "flex",
                         alignItems: "center",
@@ -1073,8 +1101,8 @@ const BuildBlogs = () => {
                         }}
                       />
                     </Box>
-                    <Grid container spacing={3} sx={{ mb: 2 }}>
-                      {rest.map((post) => (
+                    <Grid container spacing={3} sx={{ mb: 4 }}>
+                      {paginatedPosts.map((post) => (
                         <Grid size={{ xs: 12, sm: 6, md: 4 }} key={post.id}>
                           <ArticleCard
                             post={post}
@@ -1084,6 +1112,39 @@ const BuildBlogs = () => {
                         </Grid>
                       ))}
                     </Grid>
+
+                    {/* Pagination Controls */}
+                    {totalPages > 1 && (
+                      <Box
+                        sx={{
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          pt: 2,
+                          mb: 2,
+                        }}
+                      >
+                        <Pagination
+                          count={totalPages}
+                          page={currentPage}
+                          onChange={handlePageChange}
+                          size="medium"
+                          sx={{
+                            "& .MuiPaginationItem-root": {
+                              transition: "all 0.2s ease",
+                            },
+                            "& .MuiPaginationItem-page:hover": {
+                              transform: "scale(1.08)",
+                            },
+                            "& .MuiPaginationItem-page.Mui-selected": {
+                              background:
+                                "linear-gradient(135deg, #C26E3E 0%, #A85A32 100%)",
+                              fontWeight: 600,
+                            },
+                          }}
+                        />
+                      </Box>
+                    )}
                   </>
                 )}
               </>

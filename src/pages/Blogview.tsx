@@ -20,6 +20,7 @@ import { initializeApp, getApps } from "firebase/app";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
 import { TOKENS } from "./theme";
 import Comments from "../pages/components/comments";
+// import { type Props } from "./Homepage";
 
 const firebaseConfig = {};
 const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
@@ -400,10 +401,11 @@ export default function BlogDetail() {
                 },
               }}
             />
+            <Comments blogId={id!} />
           </Container>
-          <Comments blogId={id!} />
         </>
       )}
+
       <Footer />
     </Box>
   );
