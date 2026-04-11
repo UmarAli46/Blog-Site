@@ -22,13 +22,11 @@ const PageLoader = () => (
       minHeight: "100vh",
     }}
   >
-    <CircularProgress sx={{ color: "#1a6fd4" }} />
+    <CircularProgress sx={{ color: "#C26E3E" }} />
   </Box>
 );
 
 function App() {
-  // const [mode, setMode] = useState<PaletteMode>("light");
-
   const [mode, setMode] = useState<PaletteMode>(() => {
     const savedMode = localStorage.getItem("buildblogs_theme_mode");
     return (savedMode as PaletteMode) || "light";
